@@ -31,17 +31,17 @@ gulp.task("sass", function () {
         .pipe(rev())
         .pipe(gulp.dest("dist/css"))
         .pipe(rev.manifest())
-        .pipe(gulp.dest('dist/css'))
+        .pipe(gulp.dest('rev/css'))
 })
 
-gulp.task("revcss", function () {
-    return gulp.src(['*.html'])
+gulp.task("revHtml", function () {
+    return gulp.src(['rev/**/*.json', '*.html'])
         .pipe(revCollector({
             replaceReved: true,
         }))
         .pipe(gulp.dest('dist'))
 })
 
-gulp.task("default", gulp.series("clean:build", "sass", "revcss"), function () {
+gulp.task("default", gulp.series("clean:build", "sass", "revHtml"), function () {
     console.log("finish!");
 });
