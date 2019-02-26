@@ -1,0 +1,22 @@
+{
+  "name": "pq",
+  "version": "1.0.0",
+  "description": "记录平常写的小例子",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/teemosauce/PQ.git"
+  },
+  "author": "yanpengli",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/teemosauce/PQ/issues"
+  },
+  "homepage": "https://github.com/teemosauce/PQ#readme",
+  "devDependencies": {
+    "gulp": "^4.0.0"
+  }
+}

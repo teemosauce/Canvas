@@ -1,0 +1,7 @@
+*.log
+*.temp
+
+/dest
+/build
+/node_modules
+
