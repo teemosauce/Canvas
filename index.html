@@ -55,8 +55,7 @@
             transform: translate(-50%, 0)
         }
 
-        .layer1 {
-        }
+        .layer1 {}
 
         /* #number {
             background-image: url(https://www.vvfeng.com/data/upload/ueditor/20170303/58b92b2046ec4.jpg);
@@ -546,19 +545,75 @@
         }
     }
 
+    function requestAnimation() {
+        var prefixItems = ['webkit', 'moz', 'ms', 'o'];
+        var request = window.requestAnimationFrame;
+
+        for (var i = 0, len = prefixItems.length; i < len && !request; i++) {
+            var prefix = prefixItems[i];
+            request = request || window[prefix + "RequestAnimationFrame"];
+        }
+
+        if (!request) {
+            var timeline = 0;
+            request = function (callback) {
+                var now = new Date().getTime();
+                var delay = Math.max(0, 16 - (now - timeline));
+
+                timeline = now + delay;
+                return window.setTimeout(function () {
+                    callback(timeline);
+                }, delay);
+            }
+        }
+
+        return request
+    }
+
+    function cancelAnimation() {
+
+        var prefixItems = ['webkit', 'moz', 'ms', 'o'];
+        var cancel = window.cancelAnimationFrame;
+
+        for (var i = 0, len = prefixItems.length; i < len && !cancel; i++) {
+            var prefix = prefixItems[i];
+            cancel = cancel || window[prefix + "CancelAnimationFrame"] || window[prefix + "CancelRequestAnimationFrame"];
+        }
+
+        if (!cancel) {
+            cancel = function (timer) {
+                window.clearTimeout(timer);
+            }
+        }
+
+        return cancel
+    }
+
     var frame = utils.getAnimationFrame();
     var draw = new MotionDraw(options);
 
-    // for (let i = 0; i < 100; i++) {
-    //     // frame.request(start);
+    var animationTask;
 
+    var startAnim = requestAnimation(),
+        cancelAnim = cancelAnimation()
 
-    //     window.requestAnimationFrame(start)
-    // }
+    var timer;
 
-    setInterval(function () {
+    function task() {
         draw.update();
-    }, 16)
+        timer = startAnim(task);
+    }
+
+    timer || task();
+
+    $(".wrap-canvas").click(function(){
+        if(timer){
+            cancelAnim(timer);
+            timer = null;
+        }else{
+            task();
+        }
+    })
 
     utils.loadImage("https://main.qcloudimg.com/raw/723f2808ac0df2a351fa1cdae99f7f68.png", {
         loader: "bgImage"
