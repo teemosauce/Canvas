@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas Learn</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin-top: -65px;
+            position: relative;
+            cursor: pointer;
+            height: 500px;
+            font-size: 0;
+            /* display: none; */
+        }
+
+        .image {
+            width: 100%;
+            height: 100%;
+            background-position: top center;
+            background-repeat: no-repeat;
+            background-size: 1920px 500px;
+            background-color: rgb(31, 37, 49);
+            background-image: url(https://main.qcloudimg.com/raw/537ae0fc206c614bc68f1bfb58a041ce.jpg);
+            /* background-image: url(https://main.qcloudimg.com/raw/735a2df0a2d9a590ab07be3a3a921d00.png); */
+            display: inline-block;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            opacity: 1;
+            z-index: 0;
+        }
+
+        .wrap-canvas {
+            width: 100%;
+            height: 500px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+        }
+
+        .wrap-canvas canvas {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, 0)
+        }
+
+        .layer1 {
+        }
+
+        /* #number {
+            background-image: url(https://www.vvfeng.com/data/upload/ueditor/20170303/58b92b2046ec4.jpg);
+            width: 400px;
+            height: 400px;
+            background-repeat: no-repeat;
+            background-size: 200px 200px;
+            background-position: top center;
+        } */
+    </style>
+</head>
+
+<body>
+
+    <div id="lineFlower" class="container">
+        <div class="image">
+            <div class="wrap-canvas">
+            </div>
+        </div>
+    </div>
+    <!-- <div id="number">
+
+    </div> -->
+</body>
+
+<script src="../git/cce/WebContent/js/jquery-1.10.2.js"></script>
+<script>
+    var wraper = document.getElementsByClassName("wrap-canvas")[0];
+
+    var testLines = [
+        [
+            [
+                [752, 155],
+                [836, 240], 1.9, 0
+            ],
+            [
+                [836, 240],
+                [1029, 46], 1.9, 0
+            ]
+        ],
+        [
+            [
+                [1138, 155],
+                [1055, 71], 1.9, 0
+            ],
+            [
+                [1055, 71],
+                [862, 266], 1.9, 0
+            ]
+        ]
+    ];
+
+    var options = {
+        "lines": testLines,
+        "w": 1920,
+        "h": 500,
+        "wrap": wraper,
+        "thinLineWidth": 1,
+        "thickLineWidth": 1.9,
+        "opacity": 0.89,
+        "fillStyle": "rgba(0,215,255,1)",
+        "speedLine": 1.5,
+        "speedCurve": 1.5,
+        "isCubeA": false
+    };
+
+    // 创建画布
+    function createCanvas(width, height, className, parent) {
+        console.log(width, height, className, parent);
+        var elem = document.createElement("canvas");
+        parent.appendChild(elem);
+        elem.className = className;
+        elem.width = width;
+        elem.height = height;
+        return elem;
+    }
+
+    // 两次坐标点之间的直线运动
+    function LinearMotion(x1, y1, x2, y2, context, lineW, fillStyle) {
+        this.x1 = x1;
+        this.y1 = y1;
+
+        this.x2 = x2;
+        this.y2 = y2;
+
+        this.detalX = this.x2 - this.x1;
+        this.detalY = this.y2 - this.y1;
+
+        this.angle = Math.atan2(this.detalY, this.detalX);
+
+        this.x = x1;
+        this.y = y1;
+
+        this.context = context;
+
+        this.cubeActive = false; // 是否到达连接点
+        this.lineW = lineW;
+        this.canW = this.context.canvas.width;
+        this.canH = this.context.canvas.height;
+
+        this.fillStyle = fillStyle;
+    }
+
+    LinearMotion.prototype = {
+        draw: function () {
+            this.context.beginPath();
+            this.context.arc(this.x, this.y, this.lineW, 0, 2 * Math.PI);
+
+            this.context.fillStyle = this.fillStyle;
+            this.context.fill();
+        },
+        update: function () {
+            if (!this.cubeActive) {
+                this.dis = Math.sqrt(Math.pow(this.x2 - this.x, 2) + Math.pow(this.y2 - this.y, 2));
+
+                if (this.dis > this.speed) {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                } else {
+                    this.cubeActive = true;
+                }
+                this.draw()
+            }
+        },
+        reset: function () {
+            this.x = this.x1;
+            this.y = this.y1;
+            this.cubeActive = false;
+        }
+    }
+
+    // 两次坐标点之间的曲线运动
+    function CurveMotion(point, context, lineW, fillStyle) {
+        this.nIndex = 0;
+        this.p = point;
+        this.totalLength = compute(1, point);
+        this.context = context;
+        this.lineW = lineW;
+        this.fillStyle = fillStyle;
+        this.cubeActive = false; // 是否到达连接点
+
+        this.canW = context.canvas.width;
+        this.canH = context.canvas.height;
+    }
+
+    // 运行元素是否闪烁
+    function BlinkCube(point, size, context, curSize) {
+        this.size = size;
+        this.curSize = curSize;
+        this.oriSize = curSize;
+        this.context = context;
+        this.point = point;
+        this.isABack = false;
+        this.cubeActive = false; // 是否到达连接点
+    }
+
+    BlinkCube.prototype = {
+        draw: function () {
+            this.context.save();
+            this.context.beginPath();
+            this.context.fillStyle = "rgba(3,104,193,1)";
+            this.context.shadowBlur = 20;
+            this.context.shadowColor = "rgba(0,180,255,1)";
+            this.context.fillRect(this.point[0] - this.curSize / 2, this.point[1] - this.curSize / 2, this.curSize, this.curSize);
+
+            this.context.closePath();
+            this.context.fill();
+            this.context.restore();
+        },
+        update: function () {
+            if (this.isABack) {
+                if (this.curSize > this.oriSize) {
+                    this.curSize -= .05;
+                    this.draw();
+                } else {
+                    if (this.curSize < this.size) {
+                        this.curSize += .1;
+                        this.draw();
+                    }
+                }
+            } else {
+                this.isABack = true;
+                this.draw();
+            }
+        },
+        reset: function () {
+            this.isABack = false;
+            this.curSize = this.oriSize;
+        }
+    }
+
+    function clearLayer2(context) {
+        context.beginPath();
+        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    }
+
+    function clearLayer1(context, alpha, width, height) {
+        context.globalCompositeOperation = "destination-in";
+        context.fillStyle = "hsla(180, 100%, 50%," + alpha + ")";
+        context.beginPath();
+        context.fillRect(0, 0, width, height);
+        context.globalCompositeOperation = "source-over";
+    }
+
+    // 暂时指只实现直线运动
+    function MotionDraw(options) {
+        var lines = options.lines || []; // 所有运动路线
+        var width = options.w || 0; // 画布宽度
+        var height = options.h || 0; // 画布高度
+        var wrap = options.wrap; // 包装元素
+        var opacity = options.opacity || .89; // 透明度
+        var fillStyle = options.fillStyle || "rgba(0,215,255,1)"; // 运动元素样式
+        var isCubeA = options.isCubeA || false; // 到达连接点是否提示
+        var speedLine = options.speedLine || 2; // 直线速度
+        var speedCurve = options.speedCurve || 2; //曲线速度
+        var canvas2, context2;
+
+        var canvas1 = createCanvas(width, height, "layer1", wrap);
+        var context1 = canvas1.getContext("2d");
+
+        if (isCubeA) {
+            canvas2 = createCanvas(width, height, "layer2", wrap);
+            context2 = canvas2.getContext("2d");
+        }
+
+
+        var motionPoints = []; // 保存所有运动元素的集合
+        lines.forEach(function (paths, i) {
+            motionPoints[i] = [];
+
+            paths.forEach(function (path, j) {
+                var motioner, len = path.length;
+                switch (len) {
+                    case 4:
+                        motioner = new LinearMotion(path[0][0], path[0][1], path[1][0], path[1][1], context1, path[2], fillStyle);
+                        motioner.name = "line";
+
+                        if (path[3] > 0) {
+                            motioner.blinkCube = new BlinkCube(path[1], path[3] + 1, context2, path[3]);
+                        }
+
+                        motioner.speed = speedLine;
+                        motioner.speedX = speedLine * Math.cos(motioner.angle);
+                        motioner.speedY = speedLine * Math.sin(motioner.angle);
+                        break;
+                    case 6:
+                        break;
+                    default:
+                        console.log("输入数据有误");
+                        break;
+                }
+
+                motionPoints[i].push(motioner);
+            });
+        });
+
+        motionPoints.forEach(function (point, i) {
+            point.len = point.length; // 保存每个点运动路线的条数
+            point.curIndex = 0; // 当前为起始线路 0
+        })
+
+        console.log(motionPoints)
+
+        this.active = true;
+        this.motionPoints = motionPoints;
+        this.context1 = context1;
+        this.context2 = context2;
+        this.opacity = opacity;
+        this.w = width;
+        this.h = height;
+        this.canvas1 = canvas1;
+        this.canvas2 = canvas2;
+
+        this.motionPoints.finishedNum = motionPoints.length;
+
+        this.motionPoints.reset = function (drawer) {
+            drawer.motionPoints.forEach(function (point) {
+                point.forEach(function (motioner) {
+                    motioner.reset();
+                    motioner.blinkCube && motioner.blinkCube.reset();
+                })
+                point.curIndex = 0;
+            })
+            drawer.motionPoints.finishedNum = drawer.motionPoints.length;
+        }
+
+        // this.canvas1.style.display = "none";
+    }
+
+    MotionDraw.prototype = {
+        update: function () {
+            var len = this.motionPoints.length,
+                _this = this;
+            if (_this.active) {
+                _this.canvas1.style.display = "block";
+                _this.canvas2 && (_this.canvas2.style.display = "block");
+
+                if (len > 0 && _this.context2) {
+                    clearLayer2(_this.context2)
+                }
+
+                clearLayer1(_this.context1, _this.opacity, _this.w, _this.h);
+
+                console.log(_this.motionPoints);
+                _this.motionPoints.forEach(function (point, i) {
+                    if (point.curIndex < point.len) {
+                        var motioner = point[point.curIndex];
+
+                        var nextIndex = 0;
+                        if (point.curIndex - 1 > 0) {
+                            nextIndex = point.curIndex - 1;
+                        } else {
+                            nextIndex = 0;
+                        }
+                        var nextMotioner = point[nextIndex];
+
+                        motioner.update();
+                        // 开启闪烁 是当前点还是下一个点
+
+                        nextMotioner.cubeActive && nextMotioner.blinkCube && nextMotioner.blinkCube.update();
+
+                        motioner.cubeActive && (point.curIndex === point.len - 1) && _this.motionPoints.finishedNum--;
+
+                        motioner.cubeActive && (point.curIndex < point.len) && point.curIndex++;
+
+                        (0 === _this.motionPoints.finishedNum) && _this.motionPoints.reset(_this);
+                    }
+                });
+
+            }
+        }
+    }
+
+    var utils = {
+        getWindowWidth: function () {
+            return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        },
+
+        loadImage: function (src, options) {
+            var opts = $.extend({
+                loader: "pureImage"
+            }, options);
+
+            if (opts.loader === "pureImage") {
+                var image = new Image();
+                image.src = src;
+            } else if (opts.loader === "bgImage") {
+                $("<div>").css({
+                    width: 0,
+                    height: 0,
+                    overflow: "hidden",
+                    "background-image": "url(" + src + ")"
+                }).appendTo("body")
+            }
+        },
+
+        isPhone: function () {
+            var userAgent = navigator.userAgent;
+            return !(!/AppleWebKit.*Mobile/i.test(userAgent) && !/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/.test(
+                userAgent) || /iPad/i.test(userAgent))
+        },
+
+        isSupportTouchEvent: function () {
+            var userAgent = navigator.userAgent.toLowerCase();
+            return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent)
+        },
+
+        getBrowserType: function () {
+            var userAgent = navigator.userAgent;
+            if (userAgent.indexOf("Opera") > -1) {
+                return "opera";
+            }
+
+            if (userAgent.indexOf("Firefox") > -1) {
+                return "firefox";
+            }
+
+            if (userAgent.indexOf("Chrome") > -1) {
+                return "chrome";
+            }
+
+            if (userAgent.indexOf("Safari") > -1) {
+                return "safari";
+            }
+
+            if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1) {
+                return "ie";
+            }
+            return "unknown"
+        },
+
+        getAnimationFrame: function () {
+            var prefixItems = ['webkit', 'moz', 'ms', 'o'];
+
+            var request = window.requestAnimationFrame;
+            var cancel = window.cancelAnimationFrame;
+
+            if (!request || !cancel) {
+                for (var i = 0, len = prefixItems.length; i < len; i++) {
+                    var prefix = prefixItems[i];
+                    request = request || window[prefix + "RequestAnimationFrame"];
+                    cancel = cancel || window[prefix + "CancelAnimationFrame"] || window[prefix + "CancelRequestAnimationFrame"];
+                }
+            }
+
+            if (!request) {
+                var timeline = 0;
+                request = function (callback) {
+                    var now = new Date().getTime();
+                    var delay = Math.max(0, 16 - (now - timeline));
+
+                    // console.log(delay)
+                    timeline = now + delay;
+                    return window.setTimeout(function () {
+                        callback(timeline);
+                    }, delay);
+                }
+            }
+
+            if (!cancel) {
+                cancel = function (timer) {
+                    window.clearTimeout(timer);
+                }
+            }
+
+            return {
+                request: request,
+                cancel: cancel
+            }
+        },
+
+        getStorage: function () {
+
+            var local = {
+                isSupport: function () {
+                    if (!window.localStorage) return false;
+                    try {
+                        window.localStorage.isPrivate = false;
+                        return true;
+                    } catch (e) {
+                        return false;
+                    }
+                },
+
+                set: function (key, value) {
+                    if (typeof key === "string") {
+                        return window.localStorage && (window.localStorage[key] = value)
+                    }
+                },
+                get: function (key) {
+                    if (typeof key === "string") {
+                        return window.localStorage && window.localStorage[key] || null
+                    }
+
+                    return null;
+                }
+            }
+
+            var session = {
+                isSupport: function () {
+                    if (!window.sessionStorage) return false;
+                    try {
+                        window.sessionStorage.isPrivate = false;
+                        return true;
+                    } catch (e) {
+                        return false;
+                    }
+                },
+                set: function (key, value) {
+                    if (typeof key === "string") {
+                        return window.sessionStorage && (window.sessionStorage[key] = value)
+                    }
+                },
+                get: function (key) {
+                    if (typeof key === "string") {
+                        return window.sessionStorage && window.sessionStorage[key] || null
+                    }
+
+                    return null;
+                }
+            }
+
+            return {
+                sessionStorage: session,
+                localStorage: local
+            }
+        }
+    }
+
+    var frame = utils.getAnimationFrame();
+    var draw = new MotionDraw(options);
+
+    // for (let i = 0; i < 100; i++) {
+    //     // frame.request(start);
+
+
+    //     window.requestAnimationFrame(start)
+    // }
+
+    setInterval(function () {
+        draw.update();
+    }, 16)
+
+    utils.loadImage("https://main.qcloudimg.com/raw/723f2808ac0df2a351fa1cdae99f7f68.png", {
+        loader: "bgImage"
+    });
+</script>
+
+</html>
