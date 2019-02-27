@@ -1,6 +1,7 @@
 *.log
 *.temp
 
+/temp
 /dist
 /build
 /node_modules
