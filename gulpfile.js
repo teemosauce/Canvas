@@ -7,6 +7,7 @@ var rename = require('gulp-rename');
 var rev = require('gulp-rev');
 var revCollector = require('gulp-rev-collector');
 var uglify = require('gulp-uglify');
+var htmlmin = require("gulp-htmlmin");
 
 gulp.task('clean:temp', async function () {
     await del(['temp/**/*'])
@@ -35,14 +36,14 @@ gulp.task('css:min', function () {
             console.log(`${details.name}: ${details.stats.originalSize}`);
             console.log(`${details.name}: ${details.stats.minifiedSize}`);
         }))
-        .pipe(rename({
-            suffix: '.min'
-        }))
+        // .pipe(rename({
+        //     suffix: '.min'
+        // }))
         .pipe(gulp.dest('temp/css'))
 })
 
 gulp.task("css:version", async function () {
-    return gulp.src('temp/css/**/*.min.*')
+    return gulp.src('temp/css/**/*')
         .pipe(rev())
         .pipe(gulp.dest('dist/css'))
         .pipe(rev.manifest())
@@ -52,21 +53,19 @@ gulp.task("css:version", async function () {
 gulp.task('js:min', function () {
     return gulp.src('src/scripts/**/*.js')
         .pipe(uglify())
-        .pipe(rename({
-            suffix: '.min'
-        }))
+        // .pipe(rename({
+        //     suffix: '.min'
+        // }))
         .pipe(gulp.dest('temp/js'))
 })
 
 gulp.task('js:version', function () {
-    return gulp.src('temp/js/**/*.min.js')
+    return gulp.src('temp/js/**/*')
         .pipe(rev())
         .pipe(gulp.dest('dist/js'))
         .pipe(rev.manifest())
         .pipe(gulp.dest('rev/js'))
 })
-
-
 
 gulp.task("build:css", gulp.series(['css:sass', 'css:min', 'css:version']));
 gulp.task('build:js', gulp.series('js:min', 'js:version'))
@@ -78,12 +77,15 @@ gulp.task('revHtml', function () {
         .pipe(revCollector({
             replaceReved: true,
         }))
+        .pipe(htmlmin({
+            collapseWhitespace: true
+        }))
         .pipe(gulp.dest('dist'))
 })
 
 // 替换require.js中配置的js路径
 gulp.task('revRequireJS', function () {
-    return gulp.src(['rev/**/*.json', 'dist/js/require/*.min.js'])
+    return gulp.src(['rev/**/*.json', 'dist/js/require/*.js'])
         .pipe(revCollector({
             replaceReved: true,
         }))
