@@ -1,6 +1,7 @@
 *.log
 *.temp
 
+/rev
 /temp
 /dist
 /build
