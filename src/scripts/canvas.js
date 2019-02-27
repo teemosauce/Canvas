@@ -44,17 +44,25 @@ define([
     var startAnim = animationFrame.requestAnimation(),
         cancelAnim = animationFrame.cancelAnimation()
 
+    var timer, drawer;
+
+    function task() {
+        if (!drawer) {
+            drawer = new MotionDraw(options);
+        }
+        drawer.update();
+        timer = startAnim(task);
+    }
+
+
     function draw() {
 
-        var draw = new MotionDraw(options);
-
-        var timer;
-
-        function task() {
-            draw.update();
-            timer = startAnim(task);
+        if (timer) {
+            cancelAnim(timer);
+            timer = null;
+        } else {
+            task();
         }
-        timer || task();
     }
 
     return {
