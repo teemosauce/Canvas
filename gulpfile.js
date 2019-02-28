@@ -73,7 +73,7 @@ gulp.task('build:js', gulp.series('js:min', 'js:version'))
 
 // 替换html页面中的引用路径
 gulp.task('revHtml', function () {
-    return gulp.src(['rev/**/*.json', '*.html'])
+    return gulp.src(['rev/**/*.json', '*.html', "src/page/**/*.html"])
         .pipe(revCollector({
             replaceReved: true,
         }))
