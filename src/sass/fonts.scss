@@ -95,62 +95,62 @@ section {
     &.windows {
         ul {
             li:nth-child(1) {
-                font-family: "SimSun";
+                font-family: "SimSun", zhanku;
             }
 
             li:nth-child(2) {
-                font-family: "Microsoft Yahei";
+                font-family: "Microsoft Yahei", zhanku;
             }
 
             li:nth-child(3) {
-                font-family: "Arial";
+                font-family: "Arial", zhanku;
             }
 
             li:nth-child(4) {
-                font-family: "Tahoma";
+                font-family: "Tahoma", zhanku;
             }
 
             li:nth-child(5) {
-                font-family: "Verdana";
+                font-family: "Verdana", zhanku;
             }
         }
     }
 
     &.mac {
         li:nth-child(1) {
-            font-family: "STHeiti";
+            font-family: "STHeiti", zhanku;
         }
 
         li:nth-child(2) {
-            font-family: "STXihei";
+            font-family: "STXihei", zhanku;
         }
 
         li:nth-child(3) {
-            font-family: "Heiti SC";
+            font-family: "Heiti SC", zhanku;
         }
 
         li:nth-child(4) {
-            font-family: "Hiragino Sans GB";
+            font-family: "Hiragino Sans GB", zhanku;
         }
 
         li:nth-child(5) {
-            font-family: "PingFang SC";
+            font-family: "PingFang SC", zhanku;
         }
 
         li:nth-child(6) {
-            font-family: "Times New Roman";
+            font-family: "Times New Roman", zhanku;
         }
 
         li:nth-child(7) {
-            font-family: "Helvetica";
+            font-family: "Helvetica", zhanku;
         }
 
         li:nth-child(8) {
-            font-family: "Helvetica Neue";
+            font-family: "Helvetica Neue", zhanku;
         }
 
         li:nth-child(9) {
-            font-family: "San Francisco";
+            font-family: "San Francisco", zhanku;
         }
     }
 }
