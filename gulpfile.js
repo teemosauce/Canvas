@@ -1,14 +1,15 @@
+// gulp实战
 var gulp = require('gulp');
-var sass = require('gulp-sass');
-var autoprefixer = require('gulp-autoprefixer');
-var minifyCSS = require('gulp-clean-css');
-var del = require('del');
-var rename = require('gulp-rename');
-var rev = require('gulp-rev');
-var revCollector = require('gulp-rev-collector');
-var uglify = require('gulp-uglify');
-var htmlmin = require("gulp-htmlmin");
-var sourcemaps = require("gulp-sourcemaps");
+var sass = require('gulp-sass'); // sass 转 css
+var autoprefixer = require('gulp-autoprefixer'); // 浏览器兼容前缀
+var minifyCSS = require('gulp-clean-css'); // 压缩CSS
+var del = require('del'); //文件删除
+var rename = require('gulp-rename'); //文件重命名
+var rev = require('gulp-rev'); // 1.根据文件内容生成文件指纹名称 2.生成一份生成后的配置文件
+var revCollector = require('gulp-rev-collector'); //根据rev生成的配置 替换指定文件里面引用的路径名称
+var uglify = require('gulp-uglify'); // js的压缩混淆
+var htmlmin = require("gulp-htmlmin"); // html的压缩
+var sourcemaps = require("gulp-sourcemaps"); // 生成sourcemap文件 方便调试
 
 gulp.task('clean:temp', async function () {
     await del(['temp/**/*'])
@@ -100,5 +101,9 @@ gulp.task('revRequireJS', function () {
 })
 
 gulp.task('default', gulp.series('clean:build', gulp.parallel('build:js', 'build:css', 'copy'), 'clean:temp', gulp.parallel('revRequireJS', 'revHtml')), function () {
-    console.log('finish!');
-});
+    console.log('finish!')
+})
+
+gulp.task("watch", function () {
+    gulp.watch(['src/**/*', 'index.html'], gulp.series('clean:build', gulp.parallel('build:js', 'build:css', 'copy'), 'clean:temp', gulp.parallel('revRequireJS', 'revHtml')))
+})
