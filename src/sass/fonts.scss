@@ -1,3 +1,12 @@
+@font-face {
+    font-family: zhanku;
+    src: url(../fonts/zhanku.ttf)
+}
+
+body {
+    // font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+
 section {
     ul {
 
@@ -92,6 +101,8 @@ section {
         }
     }
 
+    &.default {}
+
     &.windows {
         ul {
             li:nth-child(1) {
@@ -151,6 +162,31 @@ section {
 
         li:nth-child(9) {
             font-family: "San Francisco", zhanku;
+        }
+    }
+
+    &.linux {
+        li:nth-child(1) {
+            font-family: "WenQuanYi Micro Hei", zhanku;
+        }
+    }
+
+    &.suggest {
+        pre {
+            border-radius: 4px;
+            padding: 10px;
+            max-height: 300px;
+            overflow: auto;
+            background-color: #f6f6f6;
+            color: #333;
+            font-size: 15px;
+            font-weight: 900;
+            word-wrap: break-word;
+            word-break: break-all;
+
+            code {
+                overflow-wrap: normal;
+            }
         }
     }
 }

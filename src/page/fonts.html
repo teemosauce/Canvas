@@ -7,36 +7,61 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>常用字体列表</title>
 
-    <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/fonts.css">
 </head>
 
 <body>
-    <section class="windows">
-        <h2>Windows系统默认字体</h2>
+    <section class="default">
+        <h2>各浏览器默认字体展示</h2>
         <ul>
-            <li>李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 宋体（SimSun）</li>
-            <li>李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 微软雅黑（Microsoft Yahei）</li>
-            <li>李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 西文字体（Arial）</li>
-            <li>李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 西文字体（Tahoma）</li>
-            <li>李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） Verdana</li>
+            <li data-name="SimSun">李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 浏览器默认字体</li>
+        </ul>
+    </section>
+
+    <section class="windows">
+        <h2>Windows下各字体效果</h2>
+        <ul>
+            <li data-name="SimSun">李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 宋体</li>
+            <li data-name="Microsoft Yahei">李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 微软雅黑</li>
+
+            <li data-name="Arial">李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 西文字体</li>
+            <li data-name="Tahoma">李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 西文字体</li>
+            <li data-name="Verdana">李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） Verdana</li>
         </ul>
     </section>
 
     <section class="mac">
-        <h2>Mac系统默认字体</h2>
+        <h2>Mac下各字体效果</h2>
         <ul>
-            <li>李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 华文黑体（STHeiti）</li>
-            <li>李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 华文细黑（STXihei）</li>
-            <li>李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 黑体-简（Heiti SC）</li>
-            <li>李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 冬青黑体（Hiragino Sans GB）</li>
-            <li>李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 苹方（PingFang SC）</li>
+            <li data-name="STHeiti">李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 华文黑体</li>
+            <li data-name="STXihei">李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 华文细黑</li>
+            <li data-name="Heiti SC">李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 黑体-简</li>
+            <li data-name="Hiragino Sans GB">李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 冬青黑体</li>
+            <li data-name="PingFang SC">李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 苹方</li>
 
-            <li>李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 西文字体（Times New Roman）</li>
-            <li>李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 西文字体（Helvetica）</li>
-            <li>李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 西文字体（Helvetica Neue）</li>
-            <li>李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 西文字体（San Francisco）</li>
+            <li data-name="Times New Roman">李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 西文字体</li>
+            <li data-name="Helvetica">李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 西文字体</li>
+            <li data-name="Helvetica Neue">李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 西文字体</li>
+            <li data-name="San Francisco">李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 西文字体</li>
         </ul>
+    </section>
+
+    <section class="linux">
+        <h2>Linux下各字体效果</h2>
+        <ul>
+            <li data-name="WenQuanYi Micro Hei">李彦朋（ABCDEFGHIJKLMNOPQRSTUVWXYZ） 文泉驿微米黑</li>
+        </ul>
+    </section>
+
+    <section class="suggest">
+        <h2>建议写法</h2>
+        <pre>
+            <code>
+                body {
+                    font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+                }
+            </code>
+        </pre>
     </section>
 </body>
 
