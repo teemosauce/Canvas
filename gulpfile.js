@@ -8,6 +8,7 @@ var rev = require('gulp-rev');
 var revCollector = require('gulp-rev-collector');
 var uglify = require('gulp-uglify');
 var htmlmin = require("gulp-htmlmin");
+var sourcemaps = require("gulp-sourcemaps");
 
 gulp.task('clean:temp', async function () {
     await del(['temp/**/*'])
@@ -70,6 +71,12 @@ gulp.task('js:version', function () {
 gulp.task("build:css", gulp.series(['css:sass', 'css:min', 'css:version']));
 gulp.task('build:js', gulp.series('js:min', 'js:version'))
 
+// 复制字体文件
+
+gulp.task("copy", function () {
+    return gulp.src("src/fonts/**/*")
+        .pipe(gulp.dest("dist/fonts"))
+})
 
 // 替换html页面中的引用路径
 gulp.task('revHtml', function () {
@@ -92,6 +99,6 @@ gulp.task('revRequireJS', function () {
         .pipe(gulp.dest('dist/js/require'))
 })
 
-gulp.task('default', gulp.series('clean:build', gulp.parallel('build:js', 'build:css'), 'clean:temp', gulp.parallel('revRequireJS', 'revHtml')), function () {
+gulp.task('default', gulp.series('clean:build', gulp.parallel('build:js', 'build:css', 'copy'), 'clean:temp', gulp.parallel('revRequireJS', 'revHtml')), function () {
     console.log('finish!');
 });
