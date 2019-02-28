@@ -1,97 +1,156 @@
-ul {
+section {
+    ul {
 
-    font-size: 40px;
+        font-size: 40px;
+        list-style: none;
 
-    list-style: none;
+        li {
+            position: relative;
+            padding-left: 50px;
+        }
 
-    li {
-        position: relative;
-        padding-left: 50px;
-    }
+        li::before {
+            display: inline-block;
+            content: "";
+            font-size: 30px;
+            font-weight: 900;
+            line-height: 40px;
+            text-align: center;
+            color: white;
+            width: 40px;
+            height: 40px;
+            background-color: #144396;
+            border-radius: 20px;
+            overflow: hidden;
+            position: absolute;
+            left: 0;
+            // top: 0;
+            top: 50%;
+            transform: translateY(-50%);
 
-    li::before {
-        display: inline-block;
-        content: "";
-        font-size: 30px;
-        font-weight: 900;
-        line-height: 40px;
-        text-align: center;
-        color: white;
-        width: 40px;
-        height: 40px;
-        background-color: #144396;
-        border-radius: 20px;
-        overflow: hidden;
-        position: absolute;
-        left: 0;
-        // top: 0;
-        top: 50%;
-        transform: translateY(-50%);
+            font-family: zhanku;
+        }
 
-        font-family: zhanku;
-    }
+        li:nth-child(1) {
+            &::before {
+                content: "1";
+            }
+        }
 
-    li:nth-child(1) {
-        font-family: "Helvetica Neue";
+        li:nth-child(2) {
+            &::before {
+                content: "2";
+            }
+        }
 
-        &::before {
-            content: "1";
+        li:nth-child(3) {
+            &::before {
+                content: "3";
+            }
+        }
+
+        li:nth-child(4) {
+            &::before {
+                content: "4";
+            }
+        }
+
+        li:nth-child(5) {
+            &::before {
+                content: "5";
+            }
+        }
+
+        li:nth-child(6) {
+            &::before {
+                content: "6";
+            }
+        }
+
+        li:nth-child(7) {
+            &::before {
+                content: "7";
+            }
+        }
+
+        li:nth-child(8) {
+            &::before {
+                content: "8";
+            }
+        }
+
+        li:nth-child(9) {
+            &::before {
+                content: "9";
+            }
+        }
+
+        li:nth-child(10) {
+            &::before {
+                content: "10";
+            }
         }
     }
 
-    li:nth-child(2) {
-        font-family: "Helvetica";
+    &.windows {
+        ul {
+            li:nth-child(1) {
+                font-family: "SimSun";
+            }
 
-        &::before {
-            content: "2";
+            li:nth-child(2) {
+                font-family: "Microsoft Yahei";
+            }
+
+            li:nth-child(3) {
+                font-family: "Arial";
+            }
+
+            li:nth-child(4) {
+                font-family: "Tahoma";
+            }
+
+            li:nth-child(5) {
+                font-family: "Verdana";
+            }
         }
     }
 
-    li:nth-child(3) {
-        font-family: "Arial";
-
-        &::before {
-            content: "3";
+    &.mac {
+        li:nth-child(1) {
+            font-family: "STHeiti";
         }
-    }
 
-    li:nth-child(4) {
-        font-family: "Microsoft Yahei";
-
-        &::before {
-            content: "4";
+        li:nth-child(2) {
+            font-family: "STXihei";
         }
-    }
 
-    li:nth-child(5) {
-        font-family: "Hiragino Sans GB";
-
-        &::before {
-            content: "5";
+        li:nth-child(3) {
+            font-family: "Heiti SC";
         }
-    }
 
-    li:nth-child(6) {
-        font-family: "Heiti SC";
-
-        &::before {
-            content: "6";
+        li:nth-child(4) {
+            font-family: "Hiragino Sans GB";
         }
-    }
 
-    li:nth-child(7) {
-        font-family: "WenQuanYi Micro Hei";
-
-        &::before {
-            content: "7";
+        li:nth-child(5) {
+            font-family: "PingFang SC";
         }
-    }
 
-    li:nth-child(8) {
-        font-family: "sans-serif";
+        li:nth-child(6) {
+            font-family: "Times New Roman";
+        }
 
-        &::before {
-            content: "8";
+        li:nth-child(7) {
+            font-family: "Helvetica";
+        }
+
+        li:nth-child(8) {
+            font-family: "Helvetica Neue";
+        }
+
+        li:nth-child(9) {
+            font-family: "San Francisco";
         }
     }
 }
