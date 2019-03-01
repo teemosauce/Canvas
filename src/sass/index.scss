@@ -1,0 +1,38 @@
+@import "variable";
+
+.title {
+    text-align: center;
+    line-height: $headerHeight;
+    font-size: 24px;
+}
+
+ul.catalogs {
+    font-size: 18px;
+    color: #222;
+    font-weight: 600;
+
+    li {
+        position: relative;
+        line-height: 40px;
+        padding: 8px 0 8px 56px;
+
+        .first-letter {
+            display: inline-block;
+            font-size: 28px;
+            font-weight: 900;
+            line-height: 40px;
+            text-align: center;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            background-color: #ea6f5a;
+            border-radius: 20px;
+            overflow: hidden;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: zhanku;
+        }
+    }
+}

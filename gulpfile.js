@@ -53,35 +53,52 @@ gulp.task("css:version", async function () {
 })
 
 gulp.task('js:min', function () {
-    return gulp.src('src/scripts/**/*.js')
+    return gulp.src('src/script/**/*.js')
         .pipe(uglify())
         // .pipe(rename({
         //     suffix: '.min'
         // }))
-        .pipe(gulp.dest('temp/js'))
+        .pipe(gulp.dest('temp/script'))
 })
 
 gulp.task('js:version', function () {
-    return gulp.src('temp/js/**/*')
+    return gulp.src('temp/script/**/*')
         .pipe(rev())
-        .pipe(gulp.dest('dist/js'))
+        .pipe(gulp.dest('dist/script'))
         .pipe(rev.manifest())
-        .pipe(gulp.dest('rev/js'))
+        .pipe(gulp.dest('rev/script'))
 })
 
-gulp.task("build:css", gulp.series(['css:sass', 'css:min', 'css:version']));
+gulp.task("build:css", gulp.series('css:sass', 'css:min', 'css:version'));
 gulp.task('build:js', gulp.series('js:min', 'js:version'))
 
 // 复制字体文件
-
-gulp.task("copy", function () {
+gulp.task("copy:fonts", function () {
     return gulp.src("src/fonts/**/*")
         .pipe(gulp.dest("dist/fonts"))
 })
 
+gulp.task("copy:vendor", function () {
+    return gulp.src("src/vendor/**/*")
+        .pipe(gulp.dest("dist/script/vendor"))
+})
+
+gulp.task("copy", gulp.parallel("copy:fonts", "copy:vendor"));
+
 // 替换html页面中的引用路径
-gulp.task('revHtml', function () {
-    return gulp.src(['rev/**/*.json', '*.html', "src/page/**/*.html"])
+gulp.task('revIndexHtml', function () {
+    return gulp.src(['rev/**/*.json', '*.html'])
+        .pipe(revCollector({
+            replaceReved: true,
+        }))
+        .pipe(htmlmin({
+            collapseWhitespace: true
+        }))
+        .pipe(gulp.dest('dist'))
+})
+
+gulp.task('revOtherHtml', function () {
+    return gulp.src(['rev/**/*.json', 'src/page/**/*.html'])
         .pipe(revCollector({
             replaceReved: true,
         }))
@@ -93,17 +110,17 @@ gulp.task('revHtml', function () {
 
 // 替换require.js中配置的js路径
 gulp.task('revRequireJS', function () {
-    return gulp.src(['rev/**/*.json', 'dist/js/require/*.js'])
+    return gulp.src(['rev/**/*.json', 'dist/script/*.js'])
         .pipe(revCollector({
             replaceReved: true,
         }))
-        .pipe(gulp.dest('dist/js/require'))
+        .pipe(gulp.dest('dist/script'))
 })
 
-gulp.task('default', gulp.series('clean:build', gulp.parallel('build:js', 'build:css', 'copy'), 'clean:temp', gulp.parallel('revRequireJS', 'revHtml')), function () {
+gulp.task('default', gulp.series('clean:build', gulp.parallel('build:js', 'build:css', 'copy'), 'clean:temp', gulp.parallel('revRequireJS', 'revIndexHtml', 'revOtherHtml')), function () {
     console.log('finish!')
 })
 
 gulp.task("watch", function () {
-    gulp.watch(['src/**/*', 'index.html'], gulp.series('clean:build', gulp.parallel('build:js', 'build:css', 'copy'), 'clean:temp', gulp.parallel('revRequireJS', 'revHtml')))
+    gulp.watch(['src/**/*', 'index.html'], gulp.series('clean:build', gulp.parallel('build:js', 'build:css', 'copy'), 'clean:temp', gulp.parallel('revRequireJS', 'revIndexHtml', 'revOtherHtml')))
 })

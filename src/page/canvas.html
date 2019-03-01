@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Canvas Learn</title>
 
-    <link rel="stylesheet" href="css/base.css">  
-    <link rel="stylesheet" href="css/canvas.css">    
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/canvas.css">
 </head>
 
 <body>
@@ -23,7 +23,15 @@
     </div>
 </body>
 
-<script src="js/require/require.js"></script>
-<script src="js/require/config.js"></script>
-<script src="./js/main.js"></script>
+<script src="script/vendor/requirejs/require.js"></script>
+<script src="script/require-config.js"></script>
+
+<script type="text/javascript">
+    require(['PQ_canvas'], function (canvas) {
+        document.querySelector(".container").addEventListener('click', function () {
+            canvas.draw();
+        });
+    });
+</script>
+
 </html>
