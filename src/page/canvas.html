@@ -5,21 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Canvas Learn</title>
-
+    <title>基于背景图片绘制流动元素</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/canvas.css">
 </head>
 
 <body>
-
-    <div id="lineFlower" class="container">
+    <div class="header">
+        <div class="container">
+            <div class="title">基于背景图片绘制流动元素</div>
+        </div>
+    </div>
+    <div class="image-wrapper">
         <div class="image">
             <div class="wrap-canvas">
             </div>
         </div>
-    </div>
-    <div id="number">
     </div>
 </body>
 
@@ -28,7 +30,7 @@
 
 <script type="text/javascript">
     require(['PQ_canvas'], function (canvas) {
-        document.querySelector(".container").addEventListener('click', function () {
+        document.querySelector(".image-wrapper").addEventListener('click', function () {
             canvas.draw();
         });
     });

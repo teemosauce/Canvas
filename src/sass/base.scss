@@ -423,6 +423,7 @@ body {
     background-color: #333;
     color: #b0b0b0;
     position: relative;
+    z-index: 100;
 
     ::before {
         position: absolute;
@@ -437,6 +438,12 @@ body {
         color: #ea6f5a;
         font-size: 26px;
         overflow: hidden;
+    }
+
+    .title {
+        text-align: center;
+        line-height: $headerHeight;
+        font-size: 24px;
     }
 }
 

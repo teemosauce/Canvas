@@ -83,17 +83,22 @@ gulp.task("copy:vendor", function () {
         .pipe(gulp.dest("dist/script/vendor"))
 })
 
-gulp.task("copy", gulp.parallel("copy:fonts", "copy:vendor"));
+gulp.task("copy:favicon", function () {
+    return gulp.src("favicon.ico")
+        .pipe(gulp.dest("dist"))
+})
 
-// 替换html页面中的引用路径
+gulp.task("copy", gulp.parallel("copy:fonts", "copy:vendor", "copy:favicon"));
+
+// 替换html页面中的引用路径并压缩
 gulp.task('revIndexHtml', function () {
     return gulp.src(['rev/**/*.json', '*.html'])
         .pipe(revCollector({
             replaceReved: true,
         }))
-        .pipe(htmlmin({
-            collapseWhitespace: true
-        }))
+        // .pipe(htmlmin({
+        //     collapseWhitespace: true
+        // }))
         .pipe(gulp.dest('dist'))
 })
 
@@ -102,9 +107,9 @@ gulp.task('revOtherHtml', function () {
         .pipe(revCollector({
             replaceReved: true,
         }))
-        .pipe(htmlmin({
-            collapseWhitespace: true
-        }))
+        // .pipe(htmlmin({
+        //     collapseWhitespace: true
+        // }))
         .pipe(gulp.dest('dist'))
 })
 
