@@ -426,17 +426,19 @@ body {
     z-index: 100;
 
     ::before {
+        display: inline-block;
         position: absolute;
         left: 0;
         top: 0;
         content: "PQ";
-        font-family: zhanku;
-        display: inline-block;
+        width: 50px;
         line-height: $headerHeight;
         margin-left: 16px;
-        letter-spacing: 5px;
-        color: #ea6f5a;
-        font-size: 26px;
+        color: coral;
+        font-size: 30px;
+        font-weight: bold;
+        font-family: zhanku;
+        letter-spacing: -4px;
         overflow: hidden;
     }
 
@@ -460,5 +462,19 @@ body {
 
     &::after {
         clear: both;
+    }
+}
+
+pre {
+    &.code {
+        background-color: #f6f8fa;
+        border-radius: 3px;
+        font-size: 125%;
+        line-height: 1.45;
+        overflow: auto;
+        padding: 16px;
+        word-break: normal;
+        box-sizing: border-box;
+        margin: 16px;
     }
 }

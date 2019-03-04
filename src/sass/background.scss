@@ -1,0 +1,63 @@
+@import 'variable';
+
+.bg {
+    height: $logoHeight * 4;
+    margin: 16px;
+    padding-left: $logoWidth * 4 + 32;
+    background-repeat: no-repeat;
+
+    span {
+        display: inline-block;
+        margin-top: $logoHeight + $logoHeight/2;
+        line-height: 1.5;
+        letter-spacing: 1.2px;
+    }
+}
+
+.bg-position {
+    background-image: url(../asset/logo_white.png), url(../asset/logo_black.png), url(../asset/logo_coral.png), url(../asset/logo_black.png);
+    background-repeat: no-repeat;
+    background-position: ($logoWidth + $logoWidth/2) top, $logoWidth * 3 center, ($logoWidth + $logoWidth/2) bottom, left center;
+    background-color: aqua;
+}
+
+.bg-size {
+    background-image: url(../asset/logo_coral.png);
+    background-repeat: no-repeat;
+    background-size: $logoWidth* 4 100%;
+    background-color: aquamarine;
+
+
+    &.bg-size-position {
+        background-color: cornflowerblue;
+        background-position: right top;
+        text-align: right;
+        padding-left: 16px;
+        padding-right: $logoWidth * 4 + 32;
+    }
+}
+
+.bg-origin {
+    height: $logoHeight;
+    margin: 16px;
+    border: 10px solid chartreuse;
+    padding: 10px;
+    background-image: url(../asset/logo_coral.png);
+
+    &.padding {
+        background-origin: padding-box;
+    }
+
+    &.border {
+        background-origin: border-box;
+    }
+
+    &.content {
+        background-origin: content-box;
+    }
+
+    span {
+        margin-top: 10px;
+        margin-left: $logoWidth;
+    }
+}

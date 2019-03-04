@@ -88,7 +88,12 @@ gulp.task("copy:favicon", function () {
         .pipe(gulp.dest("dist"))
 })
 
-gulp.task("copy", gulp.parallel("copy:fonts", "copy:vendor", "copy:favicon"));
+gulp.task("copy:asset", function () {
+    return gulp.src("src/asset/**/*")
+        .pipe(gulp.dest("dist/asset"))
+})
+
+gulp.task("copy", gulp.parallel("copy:fonts", "copy:vendor", "copy:favicon", "copy:asset"));
 
 // 替换html页面中的引用路径并压缩
 gulp.task('revIndexHtml', function () {

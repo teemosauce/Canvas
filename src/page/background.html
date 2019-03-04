@@ -8,14 +8,76 @@
     <title>Background各属性用法</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/background.css">
+
+    <style>
+        .div {
+            width: 48px;
+            height: 48px;
+            background-color: coral;
+            color: #fff;
+            font-family: zhanku;
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 48px;
+            margin: 0 auto;
+            letter-spacing: -4px;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 
 <body>
     <div class="header">
         <div class="container">
-            <div class="title">Background各属性用法</div>
+            <div class="title">Background 关键属性用法</div>
         </div>
     </div>
+
+    <div class="bg bg-position">
+        <span>
+            background-position 用法: 背景图片定位的位置 默认从容器的左上角(top/0px/0%, left/0px/0%)开始 以图片大小往右下开始渲染<br />
+            <i>可设置的属性值有：top, left, right, bottom, center 需要细度的可以设置像素值或者百分比。</i>
+        </span>
+    </div>
+
+    <div class="bg bg-size">
+        <span>
+            background-size 用法: 在背景图片的基础上放大相当于容器大小的百分比或者固定像素大小,默认值原始大小（auto) <br />
+            示例中对原图（48px * 48px）高度放大100% 宽度放大到指定像素192px(4倍与原图) <br />
+            <i>可设置的属性值有：固定像素100px, 百分比100%, cover(扩大到足够大，某些部分也许无法显示在背景定位区域中), contain(扩展至最大尺寸，宽度和高度完全适应内容区域。)</i>
+
+        </span>
+    </div>
+
+    <div class="bg bg-size bg-size-position">
+        <span>
+            background-size和background-position结合使用
+        </span>
+    </div>
+
+    <div class="origins">
+        <div class="bg bg-origin padding">
+            <span> background-origin 用法: 从padding开始背景渲染</span>
+        </div>
+        <div class="bg bg-origin border">
+            <span> background-origin 用法: 从border开始背景渲染</span>
+        </div>
+        <div class="bg bg-origin content">
+            <span> background-origin 用法: 从内容框开始背景渲染</span>
+        </div>
+    </div>
+
+    <div class="div">
+        PQ
+    </div>
+
+    <pre class="code">
+<span>background-position: 图片位置从何处开始 默认是左上角;</span>
+<span>background-origin: 图片相对盒子的位置 是从border开始还是padding开始;</span>
+<span>background-size: 图片本身缩放;</span>
+</pre>
 </body>
 
 </html>
