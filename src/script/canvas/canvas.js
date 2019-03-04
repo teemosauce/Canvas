@@ -6,28 +6,40 @@ define([
     var startAnim = animationFrame.requestAnimation(),
         cancelAnim = animationFrame.cancelAnimation()
 
-    function startRun() {
+    var queues = []
+    function task() {
         var option = options[options.currentAnim];
         var drawer = option.drawer;
         if (!drawer) {
-            console.log(option);
             drawer = new MotionDraw(option);
             option.drawer = drawer;
         }
         drawer.update();
-        option.timer = startAnim(startRun);
+        queues[options.currentAnim] = startAnim(task);
     }
 
+    // function startRun() {
+    //     var option = options[options.currentAnim];
+    //     var drawer = option.drawer;
+    //     if (!drawer) {
+    //         console.log(option);
+    //         drawer = new MotionDraw(option);
+    //         option.drawer = drawer;
+    //     }
+    //     drawer.update();
+    //     option.timer = startAnim(startRun);
+    // }
+
     function stopRun() {
-        cancelAnim(options[options.currentAnim].timer);
-        options[options.currentAnim].timer = null;
+        cancelAnim(queues[options.currentAnim]);
+        queues[options.currentAnim] = null;
     }
 
     function onDraw() {
-        if (options[options.currentAnim].timer) {
+        if (queues[options.currentAnim]) {
             stopRun()
         } else {
-            startRun();
+            task();
         }
     }
 
@@ -37,14 +49,13 @@ define([
         if (!Array.isArray(_options)) {
             _options = [_options];
         }
-        console.log(_options)
-        _options = [_options[0]]
-        console.log(_options)
         options = _options;
         options.forEach((option, i) => {
-            option.wrap = document.querySelector(option.wrap);
+            var container = document.querySelector(option.wrap);
+            option.wrap = container.querySelector('.wrap-canvas');
 
-            option.wrap.addEventListener('click', e => {
+            console.log(container)
+            container.addEventListener('click', e => {
                 options.currentAnim = i;
                 onDraw();
             });
