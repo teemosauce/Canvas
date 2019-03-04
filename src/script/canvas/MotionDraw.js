@@ -31,18 +31,17 @@ define([
         context.globalCompositeOperation = "source-over";
     }
 
-    function MotionDraw(options) {
-        var lines = options.lines || []; // 所有运动路线
-        var width = options.w || 0; // 画布宽度
-        var height = options.h || 0; // 画布高度
-        var wrap = options.wrap; // 包装元素
-        var opacity = options.opacity || .89; // 透明度
-        var fillStyle = options.fillStyle || "rgba(0,215,255,1)"; // 运动元素样式
-        var isCubeA = options.isCubeA || false; // 到达连接点是否提示
-        var speedLine = options.speedLine || 2; // 直线速度
-        var speedCurve = options.speedCurve || 2; //曲线速度
+    function MotionDraw(option) {
+        var lines = option.lines || []; // 所有运动路线
+        var width = option.w || 0; // 画布宽度
+        var height = option.h || 0; // 画布高度
+        var wrap = option.wrap; // 包装元素
+        var opacity = option.opacity || .89; // 透明度
+        var fillStyle = option.fillStyle || "rgba(0,215,255,1)"; // 运动元素样式
+        var isCubeA = option.isCubeA || false; // 到达连接点是否提示
+        var speedLine = option.speedLine || 2; // 直线速度
+        var speedCurve = option.speedCurve || 2; //曲线速度
         var canvas2, context2;
-
         var canvas1 = createCanvas(width, height, "layer1", wrap);
         var context1 = canvas1.getContext("2d");
 

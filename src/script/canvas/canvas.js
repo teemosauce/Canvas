@@ -1,71 +1,57 @@
 define([
-    'PQ_animationFrame',
-    'PQ_MotionDraw'
+    'PQ_animationFrame', 'PQ_MotionDraw'
 ], function (animationFrame, MotionDraw) {
-    'use strict';
-    var wraper = document.getElementsByClassName("wrap-canvas")[0];
-    var testLines = [
-        [
-            [
-                [752, 155],
-                [836, 240], 1.9, 0
-            ],
-            [
-                [836, 240],
-                [1029, 46], 1.9, 0
-            ]
-        ],
-        [
-            [
-                [1138, 155],
-                [1055, 71], 1.9, 0
-            ],
-            [
-                [1055, 71],
-                [862, 266], 1.9, 0
-            ]
-        ]
-    ];
-
-    var options = {
-        "lines": testLines,
-        "w": 1920,
-        "h": 500,
-        "wrap": wraper,
-        "thinLineWidth": 1,
-        "thickLineWidth": 1.9,
-        "opacity": 0.89,
-        "fillStyle": "rgba(0,215,255,1)",
-        "speedLine": 1.5,
-        "speedCurve": 1.5,
-        "isCubeA": false
-    };
+    // 'use strict';
 
     var startAnim = animationFrame.requestAnimation(),
         cancelAnim = animationFrame.cancelAnimation()
 
-    var timer, drawer;
-
-    function task() {
+    function startRun() {
+        var option = options[options.currentAnim];
+        var drawer = option.drawer;
         if (!drawer) {
-            drawer = new MotionDraw(options);
+            console.log(option);
+            drawer = new MotionDraw(option);
+            option.drawer = drawer;
         }
         drawer.update();
-        timer = startAnim(task);
+        option.timer = startAnim(startRun);
     }
 
+    function stopRun() {
+        cancelAnim(options[options.currentAnim].timer);
+        options[options.currentAnim].timer = null;
+    }
 
-    function draw() {
-
-        if (timer) {
-            cancelAnim(timer);
-            timer = null;
+    function onDraw() {
+        if (options[options.currentAnim].timer) {
+            stopRun()
         } else {
-            task();
+            startRun();
         }
+    }
+
+    var options;
+
+    function init(_options) {
+        if (!Array.isArray(_options)) {
+            _options = [_options];
+        }
+        console.log(_options)
+        _options = [_options[0]]
+        console.log(_options)
+        options = _options;
+        options.forEach((option, i) => {
+            option.wrap = document.querySelector(option.wrap);
+
+            option.wrap.addEventListener('click', e => {
+                options.currentAnim = i;
+                onDraw();
+            });
+        });
     }
 
     return {
-        draw: draw
+        init: init
     }
 });

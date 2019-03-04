@@ -2,10 +2,9 @@ $backgroundWidth: 1920px;
 $backgroundHeight: 500px;
 
 .image-wrapper {
-    margin-top: -65px;
     position: relative;
     cursor: pointer;
-    height: 500px;
+    height: $backgroundHeight;
     font-size: 0;
     /* display: none; */
 
@@ -16,14 +15,25 @@ $backgroundHeight: 500px;
         background-repeat: no-repeat;
         background-size: $backgroundWidth $backgroundHeight;
         background-color: rgb(31, 37, 49);
-        background-image: url(https://main.qcloudimg.com/raw/537ae0fc206c614bc68f1bfb58a041ce.jpg);
+        // background-image: url(https://main.qcloudimg.com/raw/537ae0fc206c614bc68f1bfb58a041ce.jpg);
         /* background-image: url(https://main.qcloudimg.com/raw/735a2df0a2d9a590ab07be3a3a921d00.png); */
+
         display: inline-block;
         position: absolute;
         top: 0px;
         left: 0px;
         opacity: 1;
         z-index: 0;
+
+        &.image1 {
+            margin-top: -65px;
+            // background-image: url(../asset/canvas_bg1.jpg);
+        }
+
+        &.image2 {  
+            // margin-top: 16px;
+            // background-image: url(../asset/canvas_bg2.jpg);
+        }
 
         .wrap-canvas {
             width: 100%;

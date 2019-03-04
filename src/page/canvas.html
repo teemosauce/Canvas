@@ -17,8 +17,15 @@
             <div class="title">基于背景图片绘制流动元素</div>
         </div>
     </div>
-    <div class="image-wrapper">
-        <div class="image">
+    <div class="image-wrapper" id="wrapper1">
+        <div class="image image1">
+            <div class="wrap-canvas">
+            </div>
+        </div>
+    </div>
+
+    <div class="image-wrapper" id="wrapper2">
+        <div class="image image2">
             <div class="wrap-canvas">
             </div>
         </div>
@@ -30,9 +37,98 @@
 
 <script type="text/javascript">
     require(['PQ_canvas'], function (canvas) {
-        document.querySelector(".image-wrapper").addEventListener('click', function () {
-            canvas.draw();
-        });
+        var options = [
+            // 第一张图片点击参数
+            {
+                "w": 1920,
+                "h": 500,
+                "wrap": "#wrapper1",
+                "thinLineWidth": 1,
+                "thickLineWidth": 1.9,
+                "opacity": 0.89,
+                "fillStyle": "rgba(0,215,255,1)",
+                "speedLine": 1.5,
+                "speedCurve": 1.5,
+                "isCubeA": false,
+                lines: [
+                    [
+                        [
+                            [752, 155],
+                            [836, 240], 1.9, 0
+                        ],
+                        [
+                            [836, 240],
+                            [1029, 46], 1.9, 0
+                        ]
+                    ],
+                    [
+                        [
+                            [1138, 155],
+                            [1055, 71], 1.9, 0
+                        ],
+                        [
+                            [1055, 71],
+                            [862, 266], 1.9, 0
+                        ]
+                    ]
+                ]
+            }, {
+                "w": 1920,
+                "h": 500,
+                "wrap": "#wrapper2",
+                "thinLineWidth": 1,
+                "thickLineWidth": 1.9,
+                "opacity": 0.89,
+                "fillStyle": "rgba(0,215,255,1)",
+                "speedLine": 1.5,
+                "speedCurve": 1.5,
+                "isCubeA": false,
+                lines: [
+                    [
+                        [
+                            [877, 0],
+                            [877, 264], 2.1, 0
+                        ],
+                        [
+                            [877, 264],
+                            [964, 313], 2.1, 0
+                        ]
+                    ],
+                    [
+                        [
+                            [1049, 0],
+                            [1049, 264], 2.1, 0
+                        ],
+                        [
+                            [1049, 264],
+                            [964, 313], 2.1, 0
+                        ]
+                    ],
+                    [
+                        [
+                            [964, 411],
+                            [708, 264], 1, 0
+                        ],
+                        [
+                            [708, 264],
+                            [708, 0], 1, 0
+                        ]
+                    ],
+                    [
+                        [
+                            [964, 411],
+                            [1215, 264], 1, 0
+                        ],
+                        [
+                            [1215, 264],
+                            [1215, 0], 1, 0
+                        ]
+                    ]
+                ]
+            }
+
+        ];
+        canvas.init(options);
     });
 </script>
 

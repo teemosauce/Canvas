@@ -54,7 +54,7 @@ gulp.task("css:version", async function () {
 
 gulp.task('js:min', function () {
     return gulp.src('src/script/**/*.js')
-        .pipe(uglify())
+        // .pipe(uglify())
         // .pipe(rename({
         //     suffix: '.min'
         // }))
