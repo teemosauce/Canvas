@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DOM 布局属性</title>
+
+    <link rel="shortcut icon" href="asset/favicons/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+
+    <style>
+        #rect {
+            width: 200px;
+            height: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            border-color: cornflowerblue;
+            border-width: 30px;
+            border-style: solid;
+            font-size: 16px;
+            padding: 10px 0;
+            margin: 20px 0;
+        }
+
+        #react-height-info {
+            float: left;
+            margin-left: 32px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="site-header">
+        <a href="/" class="logo"></a>
+        <div class="container">
+            <div class="title"> DOM 布局属性</div>
+        </div>
+    </div>
+
+    <div class="site-content">
+
+        <div class="container">
+            <div id="rect">
+                内容1<br />
+                内容2<br />
+                内容3<br />
+                内容4<br />
+                内容5<br />
+                内容7<br />
+                内容8<br />
+                内容9<br />
+                <!-- 内容10<br />
+                内容11<br />
+                内容12<br /> -->
+            </div>
+
+            <div id="rect-height-info">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="site-footer">
+        <div class="container">
+            © 2019
+        </div>
+    </div>
+
+    <script src="script/vendor/requirejs/require.js"></script>
+    <script src="script/require-config.js"></script>
+    <script src="script/base.js"></script>
+    <script src="script/layout/layout.js"></script>
+
+</body>
+
+</html>

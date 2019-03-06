@@ -10,6 +10,7 @@ var revCollector = require('gulp-rev-collector'); //根据rev生成的配置 替
 var uglify = require('gulp-uglify'); // js的压缩混淆
 var htmlmin = require("gulp-htmlmin"); // html的压缩
 var sourcemaps = require("gulp-sourcemaps"); // 生成sourcemap文件 方便调试
+var imagemin = require('gulp-imagemin'); // 图片压缩
 
 gulp.task('clean:temp', async function () {
     await del(['temp/**/*'])
@@ -54,7 +55,7 @@ gulp.task("css:version", async function () {
 
 gulp.task('js:min', function () {
     return gulp.src('src/script/**/*.js')
-        // .pipe(uglify())
+        .pipe(uglify())
         // .pipe(rename({
         //     suffix: '.min'
         // }))
@@ -72,6 +73,13 @@ gulp.task('js:version', function () {
 gulp.task("build:css", gulp.series('css:sass', 'css:min', 'css:version'));
 gulp.task('build:js', gulp.series('js:min', 'js:version'))
 
+// 压缩图片
+gulp.task('image:min', function () {
+    return gulp.src('src/asset/**/*.{png,jpg,gif,ico}')
+        .pipe(imagemin())
+        .pipe(gulp.dest("dist/asset"))
+})
+
 // 复制字体文件
 gulp.task("copy:fonts", function () {
     return gulp.src("src/fonts/**/*")
@@ -83,17 +91,8 @@ gulp.task("copy:vendor", function () {
         .pipe(gulp.dest("dist/script/vendor"))
 })
 
-gulp.task("copy:favicon", function () {
-    return gulp.src("favicon.ico")
-        .pipe(gulp.dest("dist"))
-})
 
-gulp.task("copy:asset", function () {
-    return gulp.src("src/asset/**/*")
-        .pipe(gulp.dest("dist/asset"))
-})
-
-gulp.task("copy", gulp.parallel("copy:fonts", "copy:vendor", "copy:favicon", "copy:asset"));
+gulp.task("copy", gulp.parallel("copy:fonts", "copy:vendor"));
 
 // 替换html页面中的引用路径并压缩
 gulp.task('revIndexHtml', function () {
@@ -127,10 +126,10 @@ gulp.task('revRequireJS', function () {
         .pipe(gulp.dest('dist/script'))
 })
 
-gulp.task('default', gulp.series('clean:build', gulp.parallel('build:js', 'build:css', 'copy'), 'clean:temp', gulp.parallel('revRequireJS', 'revIndexHtml', 'revOtherHtml')), function () {
+gulp.task('default', gulp.series('clean:build', gulp.parallel('build:js', 'build:css', 'copy', 'image:min'), 'clean:temp', gulp.parallel('revRequireJS', 'revIndexHtml', 'revOtherHtml')), function () {
     console.log('finish!')
 })
 
 gulp.task("watch", function () {
-    gulp.watch(['src/**/*', 'index.html'], gulp.series('clean:build', gulp.parallel('build:js', 'build:css', 'copy'), 'clean:temp', gulp.parallel('revRequireJS', 'revIndexHtml', 'revOtherHtml')))
+    gulp.watch(['src/**/*', 'index.html'], gulp.series('clean:build', gulp.parallel('build:js', 'build:css', 'copy', 'image:min'), 'clean:temp', gulp.parallel('revRequireJS', 'revIndexHtml', 'revOtherHtml')))
 })

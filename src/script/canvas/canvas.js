@@ -50,12 +50,12 @@ define([
             _options = [_options];
         }
         options = _options;
-        options.forEach((option, i) => {
+        options.forEach(function(option, i) {
             var container = document.querySelector(option.wrap);
             option.wrap = container.querySelector('.wrap-canvas');
 
             console.log(container)
-            container.addEventListener('click', e => {
+            container.addEventListener('click', function() {
                 options.currentAnim = i;
                 onDraw();
             });

@@ -418,38 +418,64 @@ body {
     min-width: $minWidth;
 }
 
-.header {
+.site-header {
     height: $headerHeight;
     background-color: #333;
     color: #b0b0b0;
     position: relative;
     z-index: 100;
 
-    ::before {
-        display: inline-block;
-        position: absolute;
-        left: 0;
-        top: 0;
-        content: "PQ";
-        width: 50px;
-        line-height: $headerHeight;
-        margin-left: 16px;
-        color: coral;
-        font-size: 30px;
-        font-weight: bold;
-        font-family: zhanku;
-        letter-spacing: -4px;
-        overflow: hidden;
+    // ::before {
+    //     display: inline-block;
+    //     position: absolute;
+    //     left: 0;
+    //     top: 0;
+    //     content: "PQ";
+    //     width: 50px;
+    //     line-height: $headerHeight;
+    //     margin-left: 16px;
+    //     color: coral;
+    //     font-size: 30px;
+    //     font-weight: bold;
+    //     font-family: zhanku;
+    //     letter-spacing: -4px;
+    //     overflow: hidden;
+    // }
+
+    .logo {
+        display: block;
+        float: left;
+        background-image: url(../asset/logo_black.png);
+        height: $headerHeight;
+        width: $headerHeight;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        margin-left: 18px;
+        z-index: 1;
+        position: relative;
+
+        ~.container {
+            z-index: 0;
+        }
     }
 
     .title {
+        display: block;
         text-align: center;
         line-height: $headerHeight;
         font-size: 24px;
     }
 }
 
+.site-footer {
+    padding: 16px 0;
+    text-align: center;
+    font-size: 125%;
+    visibility: hidden;
+}
+
 .container {
+    position: relative;
     width: $minWidth;
     *zoom: 1;
     margin: 0 auto;

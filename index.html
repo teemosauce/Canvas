@@ -3,25 +3,47 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PQ学习记录</title>
+    <meta name="description" content="PQ学习记录">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Canvas Learn</title>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <meta name=msapplication-tap-highlight content=no>
+    <meta name=application-name content=PQ>
+    <meta name=mobile-web-app-capable content=yes>
+
+    <!-- Apple -->
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="asset/favicons/favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="asset/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="asset/favicons/favicon-16x16.png"> -->
+
+    <link rel="shortcut icon" href="asset/favicons/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/index.css">
 
-    
+    <style>
+        .rect {
+            width: 100px;
+            height: 100px;
+            background-color: aqua;
+            border-radius: 50px;
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+        }
+    </style>
 </head>
 
 <body>
 
-    <div class="header">
+    <div class="site-header">
+        <a class="logo" href="/"></a>
         <div class="container">
             <div class="title">三天翻墙，两天搬砖</div>
         </div>
     </div>
 
-    <div class="content">
+    <div class="site-content">
         <div class="container">
             <ul class="catalogs">
                 <li>
@@ -33,24 +55,33 @@
                 <li>
                     <a href="./background.html">Background 关键属性用法</a>
                 </li>
-                <li> 
-                    <a href="#">.</a>
+                <li>
+                    <a href="./mobile.html">移动端学习</a>
                 </li>
-                <li> 
-                    <a href="#">.</a>
+                <li>
+                    <a href="./layout.html">DOM 布局属性</a>
                 </li>
             </ul>
+
+            <div style="position: relative;">
+                <div class="rect">
+
+                </div>
+
+            </div>
+
         </div>
     </div>
 
-    <div class="footer">
+    <div class="site-footer">
         <div class="container">
-
+            © 2019
         </div>
     </div>
 
     <script src="script/vendor/requirejs/require.js"></script>
     <script src="script/require-config.js"></script>
+    <script src="script/base.js"></script>
     <script src="script/home.js"></script>
 </body>
 

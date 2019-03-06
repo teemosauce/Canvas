@@ -6,6 +6,7 @@ $backgroundHeight: 500px;
     cursor: pointer;
     height: $backgroundHeight;
     font-size: 0;
+    margin-top: 10px;
     /* display: none; */
 
     .image {
@@ -26,7 +27,7 @@ $backgroundHeight: 500px;
         z-index: 0;
 
         &.image1 {
-            margin-top: -65px;
+            // margin-top: -65px;
             background-image: url(../asset/canvas_bg1.jpg);
         }
 
