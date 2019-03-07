@@ -2,7 +2,7 @@
   "name": "pq",
   "version": "1.0.0",
   "description": "记录平常写的小例子",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "build": "gulp",
     "dev": "gulp watch"
