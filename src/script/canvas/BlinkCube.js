@@ -1,6 +1,13 @@
 define(function () {
     'use strict';
-    // 运行元素是否闪烁
+    /**
+     * 拐点标志
+     * 
+     * @param {当前坐标} point 
+     * @param {默认大小} size 
+     * @param {画布绘画对象} context 
+     * @param {经过后的大小} curSize 
+     */
     function BlinkCube(point, size, context, curSize) {
         this.size = size;
         this.curSize = curSize;
@@ -8,10 +15,13 @@ define(function () {
         this.context = context;
         this.point = point;
         this.isABack = false;
-        this.cubeActive = false; // 是否到达连接点
+        this.cubeActive = false; // 是否到达
     }
 
     BlinkCube.prototype = {
+        /**
+         * 绘制
+         */
         draw: function () {
             this.context.save();
             this.context.beginPath();
@@ -24,6 +34,9 @@ define(function () {
             this.context.fill();
             this.context.restore();
         },
+        /**
+         * 更新位置信息
+         */
         update: function () {
             if (this.isABack) {
                 if (this.curSize > this.oriSize) {
@@ -40,6 +53,9 @@ define(function () {
                 this.draw();
             }
         },
+        /**
+         * 重置位置信息
+         */
         reset: function () {
             this.isABack = false;
             this.curSize = this.oriSize;

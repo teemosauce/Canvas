@@ -7,7 +7,7 @@ define([
 
     // 创建画布
     function createCanvas(width, height, className, parent) {
-        console.log(width, height, className, parent);
+        // console.log(width, height, className, parent);
         var elem = document.createElement("canvas");
         parent.appendChild(elem);
         elem.className = className;
@@ -41,6 +41,10 @@ define([
         var isCubeA = option.isCubeA || false; // 到达连接点是否提示
         var speedLine = option.speedLine || 2; // 直线速度
         var speedCurve = option.speedCurve || 2; //曲线速度
+        
+        // 画布1负责绘制流动效果
+        // 画布2负责绘制流动经过的拐点标志
+        
         var canvas2, context2;
         var canvas1 = createCanvas(width, height, "layer1", wrap);
         var context1 = canvas1.getContext("2d");
@@ -49,7 +53,6 @@ define([
             canvas2 = createCanvas(width, height, "layer2", wrap);
             context2 = canvas2.getContext("2d");
         }
-
 
         var motionPoints = []; // 保存所有运动元素的集合
         lines.forEach(function (paths, i) {
@@ -67,8 +70,8 @@ define([
                         }
 
                         motioner.speed = speedLine;
-                        motioner.speedX = speedLine * Math.cos(motioner.angle);
-                        motioner.speedY = speedLine * Math.sin(motioner.angle);
+                        motioner.speedX = speedLine * Math.cos(motioner.angle); // 水平距离/斜线距离 = 水平速度/斜线速度 = cosα
+                        motioner.speedY = speedLine * Math.sin(motioner.angle);// 垂直距离/斜线距离 = 垂直速度/斜线速度 = sinα
                         break;
                     case 6:
                         break;
@@ -86,7 +89,7 @@ define([
             point.curIndex = 0; // 当前为起始线路 0
         })
 
-        console.log(motionPoints)
+        // console.log(motionPoints)
 
         this.active = true;
         this.motionPoints = motionPoints;
