@@ -79,6 +79,10 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
+# mac系统生成文件
+.DS_Store
+*/.DS_Store
+
 # 临时目录
 rev
 temp
