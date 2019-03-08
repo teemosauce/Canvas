@@ -8,6 +8,12 @@
     color: #fff;
     position: relative;
     overflow: hidden;
+    transition: all 1s;
+
+    &:hover {
+        opacity: .5;
+
+    }
 
     &.screen1 {
         background-color: aqua;
@@ -25,6 +31,8 @@
         background-color: olive;
     }
 
+    
+
     span {
         position: absolute;
         bottom: -400px;
@@ -32,15 +40,14 @@
         text-align: center;
         left: 50%;
         transform: translateX(-50%);
+
         &.transition {
-            transition: all 2s;
+            transition: all .5s;
         }
-    }
 
-
-    &.on {
-        span {
+        &.on {
             bottom: 0;
         }
     }
+
 }

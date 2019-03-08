@@ -1,8 +1,6 @@
 ~(function () {
 
-    require(['PQ_util', "jquery"], function (util, jquery) {
-        var $ = jquery;
-
+    require(['PQ_util', "jquery"], function (util, $) {
         function getViewport() {
             var $win = $(window)
             var viewport = {
@@ -28,7 +26,7 @@
 
         function lazyLoad() {
             var viewport = getViewport();
-            $(".screen").each(function (i, item) {
+            $(".screen span").each(function (i, item) {
                 var $item = $(item);
 
                 if (!$item.hasClass("on")) {

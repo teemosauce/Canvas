@@ -13,5 +13,11 @@ require.config({
 
         jquery: 'script/vendor/jquery/jquery-3.3.1.min.js?noext'
 
+    },
+
+    shim: {
+        jquery: {
+            exports: '$'
+        }
     }
 })
