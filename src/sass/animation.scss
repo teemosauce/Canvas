@@ -1,0 +1,46 @@
+// CSS3 动画篇
+
+.screen {
+    height: 400px;
+    font-family: zhanku;
+    font-size: 300px;
+    font-weight: bold;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+
+    &.screen1 {
+        background-color: aqua;
+    }
+
+    &.screen2 {
+        background-color: blueviolet;
+    }
+
+    &.screen3 {
+        background-color: chartreuse;
+    }
+
+    &.screen4 {
+        background-color: olive;
+    }
+
+    span {
+        position: absolute;
+        bottom: -400px;
+        line-height: 400px;
+        text-align: center;
+        left: 50%;
+        transform: translateX(-50%);
+        &.transition {
+            transition: all 2s;
+        }
+    }
+
+
+    &.on {
+        span {
+            bottom: 0;
+        }
+    }
+}

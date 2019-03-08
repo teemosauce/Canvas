@@ -99,7 +99,9 @@ define(function (require, factory) {
          * @param {最低多长时间执行一次} milliseconds 
          */
         throttle: function (f, milliseconds) {
+            milliseconds = milliseconds || 16;
             f.startTime = Date.now()
+
             return function () {
                 var context = this,
                     arg = arguments,
@@ -118,6 +120,8 @@ define(function (require, factory) {
                     }, milliseconds)
                 }
             }
+
+            
         },
 
         /**

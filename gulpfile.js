@@ -12,66 +12,47 @@ var htmlmin = require("gulp-htmlmin"); // html的压缩
 var sourcemaps = require("gulp-sourcemaps"); // 生成sourcemap文件 方便调试
 var imagemin = require('gulp-imagemin'); // 图片压缩
 
-gulp.task('clean:temp', async function () {
-    await del(['temp/**/*'])
-})
-
 gulp.task('clean:build', async function () {
-    await del(['dist/**/*', 'rev/**/*'])
+    await del(['dist/**/*'])
 });
 
-gulp.task('css:sass', function () {
+// 处理css
+gulp.task("build:css", function () {
     return gulp.src('src/sass/*.scss')
-        .pipe(sass())
+        .pipe(sourcemaps.init())
+        .pipe(sass()) // 转换sass到css
         .pipe(autoprefixer({
             browsers: ['last 10 versions'],
             cascade: false
-        }))
-        .pipe(gulp.dest('temp/css'))
-})
-
-gulp.task('css:min', function () {
-    return gulp.src('temp/css/**/*')
+        })) //兼容性
         .pipe(minifyCSS({
             debug: true,
             compatibility: 'ie8'
         }, (details) => {
             console.log(`${details.name}: ${details.stats.originalSize}`);
             console.log(`${details.name}: ${details.stats.minifiedSize}`);
-        }))
-        // .pipe(rename({
-        //     suffix: '.min'
-        // }))
-        .pipe(gulp.dest('temp/css'))
-})
-
-gulp.task("css:version", async function () {
-    return gulp.src('temp/css/**/*')
-        .pipe(rev())
+        })) // 压缩css代码
+        .pipe(rev()) // 生成文件版本号
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest('dist/css'))
-        .pipe(rev.manifest())
-        .pipe(gulp.dest('rev/css'))
-})
+        .pipe(rev.manifest('css-manifest.json'))
+        .pipe(gulp.dest('dist/rev'))
+});
 
-gulp.task('js:min', function () {
+// 处理js
+gulp.task('build:js', function () {
     return gulp.src('src/script/**/*.js')
+        .pipe(sourcemaps.init())
         .pipe(uglify())
         // .pipe(rename({
         //     suffix: '.min'
         // }))
-        .pipe(gulp.dest('temp/script'))
-})
-
-gulp.task('js:version', function () {
-    return gulp.src('temp/script/**/*')
         .pipe(rev())
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest('dist/script'))
-        .pipe(rev.manifest())
-        .pipe(gulp.dest('rev/script'))
-})
-
-gulp.task("build:css", gulp.series('css:sass', 'css:min', 'css:version'));
-gulp.task('build:js', gulp.series('js:min', 'js:version'))
+        .pipe(rev.manifest('js-manifest.json'))
+        .pipe(gulp.dest('dist/rev'))
+});
 
 // 压缩图片
 gulp.task('image:min', function () {
@@ -91,45 +72,43 @@ gulp.task("copy:vendor", function () {
         .pipe(gulp.dest("dist/script/vendor"))
 })
 
-
-gulp.task("copy", gulp.parallel("copy:fonts", "copy:vendor"));
-
-// 替换html页面中的引用路径并压缩
-gulp.task('revIndexHtml', function () {
-    return gulp.src(['rev/**/*.json', '*.html'])
-        .pipe(revCollector({
-            replaceReved: true,
-        }))
-        // .pipe(htmlmin({
-        //     collapseWhitespace: true
-        // }))
-        .pipe(gulp.dest('dist'))
+gulp.task("copy:others", function () {
+    return gulp.src(["site.webmanifest"])
+        .pipe(gulp.dest("dist"))
 })
 
-gulp.task('revOtherHtml', function () {
-    return gulp.src(['rev/**/*.json', 'src/page/**/*.html'])
+gulp.task("copy", gulp.parallel("copy:fonts", "copy:vendor", "copy:others"));
+
+// 替换html页面中的引用路径并压缩
+
+gulp.task('htmlreplace', function () {
+    return gulp.src(['dist/rev/*.json', '*.html', 'src/page/**/*.html'])
         .pipe(revCollector({
             replaceReved: true,
         }))
-        // .pipe(htmlmin({
-        //     collapseWhitespace: true
-        // }))
+        .pipe(htmlmin({
+            collapseWhitespace: true,
+            empty: true,
+            spare: true,
+            minifyCSS: true,
+            minifyJS: true
+        }))
         .pipe(gulp.dest('dist'))
 })
 
 // 替换require.js中配置的js路径
-gulp.task('revRequireJS', function () {
-    return gulp.src(['rev/**/*.json', 'dist/script/*.js'])
+gulp.task('rjsreplace', function () {
+    return gulp.src(['dist/rev/*.json', 'dist/script/*.js'])
         .pipe(revCollector({
             replaceReved: true,
         }))
         .pipe(gulp.dest('dist/script'))
 })
 
-gulp.task('default', gulp.series('clean:build', gulp.parallel('build:js', 'build:css', 'copy', 'image:min'), 'clean:temp', gulp.parallel('revRequireJS', 'revIndexHtml', 'revOtherHtml')), function () {
+gulp.task('default', gulp.series('clean:build', gulp.parallel('build:js', 'build:css', 'image:min'), 'copy', 'htmlreplace', 'rjsreplace'), function () {
     console.log('finish!')
 })
 
 gulp.task("watch", function () {
-    gulp.watch(['src/**/*', 'index.html'], gulp.series('clean:build', gulp.parallel('build:js', 'build:css', 'copy', 'image:min'), 'clean:temp', gulp.parallel('revRequireJS', 'revIndexHtml', 'revOtherHtml')))
+    gulp.watch(['src/**/*', 'index.html'], gulp.series('clean:build', gulp.parallel('build:js', 'build:css', 'image:min'), 'copy', 'htmlreplace', 'rjsreplace'))
 })
