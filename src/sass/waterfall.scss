@@ -1,0 +1,53 @@
+selector::-webkit-scrollbar {
+    width: 0;
+}
+
+body {
+    min-width: initial;
+}
+
+.container {
+    width: 100%;
+    margin: 0;
+}
+
+.column {
+    position: relative;
+    // display: inline-block;
+    min-height: 400px;
+    float: left;
+
+    .colorlump {
+        position: absolute;
+        left: 0;
+        display: inline-block;
+        box-sizing: border-box;
+        width: 100%;
+        margin-top: 10px;
+        font-size: 50px;
+        font-weight: bold;
+        text-align: center;
+        color: #fff;
+
+        .mycolor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 20px;
+            line-height: 20px;
+            right: 0;
+            background-color: rgba(51, 51, 51, 0.8);
+            color: #fff;
+            padding-left: 16px;
+            font-size: 14px;
+        }
+
+        ~.colorlump {
+            // margin-right: 10px;
+        }
+
+        &:hover {
+            opacity: 0.5;
+        }
+    }
+}

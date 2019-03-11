@@ -13,5 +13,4 @@
         contents.push("offsetTop: " + rect.offsetTop + "  (内容偏移高度))");
     }
     rectHeightInfo.innerHTML = contents.join("<br/>")
-
 }()

@@ -121,7 +121,7 @@ define(function () {
                 }
             }
 
-            
+
         },
 
         /**
@@ -133,6 +133,30 @@ define(function () {
                     v = c == 'x' ? r : (r & 0x3 | 0x8);
                 return v.toString(16)
             });
+        },
+
+        /**
+         * 随机生成一种颜色
+         */
+        getRGBColor: function () {
+            var colors = [];
+
+            for (var i = 0; i < 3; i++) {
+                colors.push(this.add0(Math.floor(Math.random() * 256).toString(16), 2));
+            }
+
+            return "#" + colors.join("")
+        },
+
+        /**
+         * 对不满足位数的数字进行补0
+         */
+        add0: function (val, fixed) {
+            val = val + ''
+            if (fixed > val.length) {
+                val = '0'.repeat(fixed - val.length) + val
+            }
+            return val
         }
     }
 });

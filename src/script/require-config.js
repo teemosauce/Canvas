@@ -1,5 +1,5 @@
 require.config({
-    baseUrl: ".",
+    baseUrl: "/",
     paths: {
         PQ_BlinkCube: 'script/canvas/BlinkCube.js?noext',
         PQ_CurveMotion: 'script/canvas/CurveMotion.js?noext',
@@ -11,7 +11,9 @@ require.config({
         PQ_storage: 'script/helper/storage.js?noext',
         PQ_util: 'script/helper/util.js?noext',
 
-        jquery: 'script/vendor/jquery/jquery-3.3.1.min.js?noext'
+        PQ_ColorLump: 'script/waterfall/colorlump.js?noext',
+
+        jquery: 'script/vendor/jquery/jquery-3.3.1.min.js?noext',
 
     },
 
