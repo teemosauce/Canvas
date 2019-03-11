@@ -21,7 +21,7 @@
             bound.right = bound.left + $item.width();
             bound.bottom = bound.top + $item.height();
 
-            return (!(viewport.right < bound.left || viewport.left > bound.right || viewport.bottom < bound.top || viewport.top > bound.bottom));
+            return !(viewport.right < bound.left || viewport.left > bound.right || viewport.bottom < bound.top || viewport.top > bound.bottom);
         }
 
         function lazyLoad() {
