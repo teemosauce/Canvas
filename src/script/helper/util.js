@@ -78,18 +78,20 @@ define(function () {
          * 固定底部栏永远在最下面
          */
         fixFooter: function () {
+            var footer = document.getElementsByClassName("site-footer")[0];
+            if(footer) {
+                footer.style.visibility = "hidden";
+            }
             var t = setTimeout(function () {
                 var header = document.getElementsByClassName("site-header")[0]
-                var footer = document.getElementsByClassName("site-footer")[0];
                 var content = document.getElementsByClassName("site-content")[0];
 
                 if (footer) {
                     var headerHeight = header && header.clientHeight || 0;
-
                     if (content) {
+                        // document.documentElement.scrollHeight
                         content.style.minHeight = document.documentElement.clientHeight - headerHeight - footer.offsetHeight + "px";
                     }
-
                     footer.style.visibility = "visible";
                 }
                 clearTimeout(t);
@@ -160,6 +162,24 @@ define(function () {
                 val = '0'.repeat(fixed - val.length) + val
             }
             return val
+        },
+
+        /**
+         * 获取滚动条得宽度
+         */
+        getScrollbarWidth: function () {
+            var odiv = document.createElement('div'), //创建一个div
+                styles = {
+                    width: '100px',
+                    height: '100px',
+                    overflowY: 'scroll' //让他有滚动条
+                },
+                i, scrollbarWidth;
+            for (i in styles) odiv.style[i] = styles[i];
+            document.body.appendChild(odiv); //把div添加到body中
+            scrollbarWidth = odiv.offsetWidth - odiv.clientWidth; //相减
+            odiv.remove(); //移除创建的div
+            return scrollbarWidth; //返回滚动条宽度
         }
     }
 });

@@ -1,18 +1,19 @@
 require(["jquery", "PQ_util", "PQ_ColorLump"], function ($, util, ColorLump) {
     //container宽度 计算能放下多少列布局
     var width = 350;
+    var textNum = 1;
+
     function reflow() {
         textNum = 1;
         var gap = 10;
-
         var $container = $(".site-content .container");
-        var maxWidth = $container.width() - 20;
+        var maxWidth = $container.width() - util.getScrollbarWidth();
         var num = Math.floor(maxWidth / width)
-        if ((num - 1) * gap + width * num > maxWidth) {
+        if (num * (gap + width) > maxWidth) {
             num = num - 1
         }
 
-        gap = (maxWidth - width * num) / (num - 1)
+        gap = (maxWidth - width * num) / num
 
         initLayout(num, width, gap);
     }
@@ -20,7 +21,6 @@ require(["jquery", "PQ_util", "PQ_ColorLump"], function ($, util, ColorLump) {
     $(window).resize(util.throttle(function () {
         reflow()
     }))
-
     reflow()
 
     function initLayout(n, width, gap) {
@@ -31,48 +31,72 @@ require(["jquery", "PQ_util", "PQ_ColorLump"], function ($, util, ColorLump) {
                 width: width + "px"
             })
 
-            if (i !== 1) {
+            if (i == 1) {
                 $column.css({
                     marginLeft: gap
+                })
+            } else {
+                $column.css({
+                    marginLeft: gap / 2
                 })
             }
             columns.push($column)
             $container.append($column)
         }
 
-        for (var i = 0; i < 100; i++) {
+        for (var i = 0; i < 10; i++) {
             addOne()
         }
 
-        util.fixFooter();
+        // util.fixFooter();
     }
 
-    function getNextColumn() {
-        var $item;
+    function getColumn() {
+        var $min, $max;
         $(".site-content .container .column").each(function (i, item) {
-            if (!$item) {
-                $item = $(item)
+            var $item = $(item);
+            if (!$min) {
+                $min = $item
             }
-            if (($item.data("top") || 0) > ($(item).data("top") || 0)) {
-                $item = $(item)
+            if (!$max) {
+                $max = $item
+            }
+            if (($min.data("top") || 0) > ($item.data("top") || 0)) {
+                $min = $item
+            }
+
+            if (($max.data("top") || 0) < ($item.data("top") || 0)) {
+                $max = $item
             }
         })
-        return $item;
+        return {
+            $min: $min,
+            $max: $max
+        };
     }
 
-    var textNum = 1;
-
     function addOne() {
-        var $nextColumn = getNextColumn()
+        var column = getColumn()
+        var $minColumn = column.$min
 
         var elem = new ColorLump({
             text: textNum++,
             className: 'colorlump'
         });
-        var top = parseFloat($nextColumn.data("top") || 0);
-        $nextColumn.append(elem.getElement().css({
+        var top = parseFloat($minColumn.data("top") || 0);
+        top += 10;
+
+        var $elem = elem.getElement()
+        $minColumn.append($elem.css({
             top: top + "px"
-        })).data("top", top + +elem.getHeight())
+        }))
+        .data("top", top + +elem.getHeight())
+
+
+        if(top + elem.getHeight() >  ($(".site-content .container").data("top") || 0)){
+            $(".site-content .container").data("top", top + elem.getHeight())
+        }
+        // .css('height', top + elem.getHeight() + 'px')
     }
 
     function getViewport() {
@@ -102,12 +126,21 @@ require(["jquery", "PQ_util", "PQ_ColorLump"], function ($, util, ColorLump) {
     $(window).scroll(util.throttle(function (e) {
         var viewport = getViewport();
 
-        var $footer = $(".site-footer")
-        var isIn = inViewport($footer, viewport);
-        if (isIn) {
+        var top = parseFloat($(".site-content .container").data("top"))
+
+        if(top >= viewport.top){
             for (var i = 0; i < 5; i++) {
                 addOne()
             }
         }
+
+        // var isIn = inViewport($max, viewport);
+        // if (isIn) {
+        //     for (var i = 0; i < 5; i++) {
+        //         addOne()
+        //     }
+        // }
+
+
     }))
 })
