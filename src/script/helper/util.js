@@ -78,19 +78,22 @@ define(function () {
          * 固定底部栏永远在最下面
          */
         fixFooter: function () {
-            var header = document.getElementsByClassName("site-header")[0]
-            var footer = document.getElementsByClassName("site-footer")[0];
-            var content = document.getElementsByClassName("site-content")[0];
+            var t = setTimeout(function () {
+                var header = document.getElementsByClassName("site-header")[0]
+                var footer = document.getElementsByClassName("site-footer")[0];
+                var content = document.getElementsByClassName("site-content")[0];
 
-            if (footer) {
-                var headerHeight = header && header.clientHeight || 0;
+                if (footer) {
+                    var headerHeight = header && header.clientHeight || 0;
 
-                if (content) {
-                    content.style.minHeight = document.documentElement.clientHeight - headerHeight - footer.offsetHeight + "px";
+                    if (content) {
+                        content.style.minHeight = document.documentElement.clientHeight - headerHeight - footer.offsetHeight + "px";
+                    }
+
+                    footer.style.visibility = "visible";
                 }
-
-                footer.style.visibility = "visible";
-            }
+                clearTimeout(t);
+            }, 0)
         },
 
         /**

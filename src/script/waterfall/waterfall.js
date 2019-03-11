@@ -1,32 +1,29 @@
 require(["jquery", "PQ_util", "PQ_ColorLump"], function ($, util, ColorLump) {
-
-
-
     //container宽度 计算能放下多少列布局
-
-    var minMargin = 10;
     var width = 350;
+    function reflow() {
+        textNum = 1;
+        var gap = 10;
 
-    function flow() {
         var $container = $(".site-content .container");
-        var maxWidth = $container.width();
+        var maxWidth = $container.width() - 20;
         var num = Math.floor(maxWidth / width)
-        if ((num - 1) * minMargin + width * num > maxWidth) {
+        if ((num - 1) * gap + width * num > maxWidth) {
             num = num - 1
         }
 
-        minMargin = (maxWidth - width * num) / (num - 1)
+        gap = (maxWidth - width * num) / (num - 1)
 
-        initLayout(num, width, minMargin);
+        initLayout(num, width, gap);
     }
 
-    // $(window).resize(util.throttle(function () {
-    //     flow()
-    // }))
+    $(window).resize(util.throttle(function () {
+        reflow()
+    }))
 
-    flow()
+    reflow()
 
-    function initLayout(n, width, left) {
+    function initLayout(n, width, gap) {
         var $container = $(".site-content .container").empty();
         var columns = []
         for (var i = 1; i <= n; i++) {
@@ -36,68 +33,81 @@ require(["jquery", "PQ_util", "PQ_ColorLump"], function ($, util, ColorLump) {
 
             if (i !== 1) {
                 $column.css({
-                    marginLeft: left
+                    marginLeft: gap
                 })
             }
             columns.push($column)
             $container.append($column)
         }
+
+        for (var i = 0; i < 100; i++) {
+            addOne()
+        }
+
+        util.fixFooter();
+    }
+
+    function getNextColumn() {
+        var $item;
+        $(".site-content .container .column").each(function (i, item) {
+            if (!$item) {
+                $item = $(item)
+            }
+            if (($item.data("top") || 0) > ($(item).data("top") || 0)) {
+                $item = $(item)
+            }
+        })
+        return $item;
     }
 
     var textNum = 1;
-    var n = $(".site-content .container .column").length;
-    for (var i = 0; i < 500; i++) {
-        var index = i % n;
 
+    function addOne() {
+        var $nextColumn = getNextColumn()
 
-        var $column = $(".site-content .container .column").eq(index);
         var elem = new ColorLump({
             text: textNum++,
             className: 'colorlump'
         });
-        var top = parseFloat($column.data("top") || 0);
-        console.log(top)
-        $column.append(elem.getElement().css({
+        var top = parseFloat($nextColumn.data("top") || 0);
+        $nextColumn.append(elem.getElement().css({
             top: top + "px"
-        })).data("top", top + + elem.getHeight())
+        })).data("top", top + +elem.getHeight())
     }
 
-    // function getViewport() {
-    //     var $win = $(window)
-    //     var viewport = {
-    //         top: $win.scrollTop(),
-    //         left: $win.scrollLeft()
-    //     }
+    function getViewport() {
+        var $win = $(window)
+        var viewport = {
+            top: $win.scrollTop(),
+            left: $win.scrollLeft()
+        }
 
-    //     viewport.right = viewport.left + $win.width();
-    //     viewport.bottom = viewport.top + $win.height();
+        viewport.right = viewport.left + $win.width();
+        viewport.bottom = viewport.top + $win.height();
 
-    //     return viewport;
-    // }
+        return viewport;
+    }
 
-    // function inViewport(item, viewport) {
+    function inViewport(item, viewport) {
 
-    //     var $item = $(item);
-    //     var bound = $item.offset();
+        var $item = $(item);
+        var bound = $item.offset();
 
-    //     bound.right = bound.left + $item.width();
-    //     bound.bottom = bound.top + $item.height();
+        bound.right = bound.left + $item.width();
+        bound.bottom = bound.top + $item.height();
 
-    //     return !(viewport.right < bound.left || viewport.left > bound.right || viewport.bottom < bound.top || viewport.top > bound.bottom);
-    // }
+        return !(viewport.right < bound.left || viewport.left > bound.right || viewport.bottom < bound.top || viewport.top > bound.bottom);
+    }
 
-    // $(window).scroll(util.throttle(function (e) {
-    //     var viewport = getViewport();
+    $(window).scroll(util.throttle(function (e) {
+        var viewport = getViewport();
 
-    //     var $footer = $(".site-footer")
-    //     var isIn = inViewport($footer, viewport);
-    //     if (isIn) {
-    //         for (var i = 0; i < 4; i++) {
-    //             $(".site-content .container").append(new ColorLump({
-    //                 text: textNum++,
-    //                 className: 'colorlump'
-    //             }).getElement())
-    //         }
-    //     }
-    // }))
+        var $footer = $(".site-footer")
+        var isIn = inViewport($footer, viewport);
+        if (isIn) {
+            for (var i = 0; i < 5; i++) {
+                addOne()
+            }
+        }
+    }))
 })
