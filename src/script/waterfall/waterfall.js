@@ -23,9 +23,14 @@ require(["jquery", "PQ_util", "PQ_ColorLump"], function ($, util, ColorLump) {
     }))
     reflow()
 
+    /**
+     * 
+     * @param {多少列} n 
+     * @param {每列宽度} width 
+     * @param {列之间的间距} gap 
+     */
     function initLayout(n, width, gap) {
         var $container = $(".site-content .container").empty();
-        var columns = []
         for (var i = 1; i <= n; i++) {
             var $column = $("<div class=column>").css({
                 width: width + "px"
@@ -33,22 +38,19 @@ require(["jquery", "PQ_util", "PQ_ColorLump"], function ($, util, ColorLump) {
 
             if (i == 1) {
                 $column.css({
-                    marginLeft: gap
+                    marginLeft: gap / 2
                 })
             } else {
                 $column.css({
-                    marginLeft: gap / 2
+                    marginLeft: gap
                 })
             }
-            columns.push($column)
             $container.append($column)
         }
 
         for (var i = 0; i < 10; i++) {
             addOne()
         }
-
-        // util.fixFooter();
     }
 
     function getColumn() {
@@ -61,11 +63,11 @@ require(["jquery", "PQ_util", "PQ_ColorLump"], function ($, util, ColorLump) {
             if (!$max) {
                 $max = $item
             }
-            if (($min.data("top") || 0) > ($item.data("top") || 0)) {
+            if (($min.data("columnHeight") || 0) > ($item.data("columnHeight") || 0)) {
                 $min = $item
             }
 
-            if (($max.data("top") || 0) < ($item.data("top") || 0)) {
+            if (($max.data("columnHeight") || 0) < ($item.data("columnHeight") || 0)) {
                 $max = $item
             }
         })
@@ -83,20 +85,13 @@ require(["jquery", "PQ_util", "PQ_ColorLump"], function ($, util, ColorLump) {
             text: textNum++,
             className: 'colorlump'
         });
-        var top = parseFloat($minColumn.data("top") || 0);
+        var top = parseFloat($minColumn.data("columnHeight") || 0);
         top += 10;
 
-        var $elem = elem.getElement()
-        $minColumn.append($elem.css({
-            top: top + "px"
-        }))
-        .data("top", top + +elem.getHeight())
+        var $elem = elem.getElement().css('top', top + "px")
 
-
-        if(top + elem.getHeight() >  ($(".site-content .container").data("top") || 0)){
-            $(".site-content .container").data("top", top + elem.getHeight())
-        }
-        // .css('height', top + elem.getHeight() + 'px')
+        var columnHeight = top + elem.getHeight();
+        $minColumn.append($elem).data("columnHeight", columnHeight).css('minHeight', columnHeight + 'px');
     }
 
     function getViewport() {
@@ -125,22 +120,15 @@ require(["jquery", "PQ_util", "PQ_ColorLump"], function ($, util, ColorLump) {
 
     $(window).scroll(util.throttle(function (e) {
         var viewport = getViewport();
+        var column = getColumn()
+        var $minColumn = column.$min
+        var top = parseFloat($minColumn.data("columnHeight"))
 
-        var top = parseFloat($(".site-content .container").data("top"))
-
-        if(top >= viewport.top){
+        if (viewport.bottom >= top) {
+            console.log("瀑布流加载")
             for (var i = 0; i < 5; i++) {
                 addOne()
             }
         }
-
-        // var isIn = inViewport($max, viewport);
-        // if (isIn) {
-        //     for (var i = 0; i < 5; i++) {
-        //         addOne()
-        //     }
-        // }
-
-
     }))
 })

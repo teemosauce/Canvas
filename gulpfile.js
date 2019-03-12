@@ -57,7 +57,7 @@ gulp.task('build:js', function () {
 // 压缩图片
 gulp.task('image:min', function () {
     return gulp.src('src/asset/**/*.{png,jpg,gif,ico}')
-        .pipe(imagemin())
+        // .pipe(imagemin())
         .pipe(gulp.dest("dist/asset"))
 })
 

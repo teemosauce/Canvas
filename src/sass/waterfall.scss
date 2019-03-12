@@ -11,14 +11,12 @@ body {
 .column {
     position: relative;
     display: inline-block;
-    // min-height: 400px;
-    // float: left;
+    vertical-align: top;
 
     .colorlump {
         position: absolute;
         left: 0;
         right: 0;
-        // margin-top: 10px;
         font-size: 80px;
         font-weight: bold;
         text-align: center;
@@ -28,17 +26,13 @@ body {
             position: absolute;
             bottom: 0;
             left: 0;
-            height: 20px;
-            line-height: 20px;
             right: 0;
+            height: 25px;
+            line-height: 25px;
             background-color: rgba(51, 51, 51, 0.8);
             color: #fff;
-            padding-left: 16px;
-            font-size: 14px;
-        }
-
-        ~.colorlump {
-            // margin-right: 10px;
+            font-size: 15px;
+            font-weight: normal;
         }
 
         &:hover {
