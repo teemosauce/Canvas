@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Float用法</title>
+
+    <link rel="stylesheet" href="css/base.css">
+
+    <style>
+        .img-text {
+            border: 1px solid yellowgreen;
+            padding: 10px;
+        }
+
+        .img-text img {
+            width: 60px;
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="site-header">
+        <a href="/" class="logo"></a>
+        <div class="container">
+            <div class="title">
+                Float用法
+            </div>
+        </div>
+    </div>
+
+    <div class="site-content">
+        <div class="container">
+
+            <section>
+                <h2>文字环绕</h2>
+                <div class="img-text">
+                    <img src="asset/pay.png">
+                    <span>
+                        Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果
+                        Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果Float实现文字环绕效果
+                    </span>
+                </div>
+            </section>
+
+            <section>
+                <h2>高度坍塌（浮动元素脱离文档流 导致父元素高度坍塌）</h2>
+                <div class="img-text">
+                    <img src="asset/pay.png">
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <div class="site-footer">
+        <div class="site-container">
+            @ 2019
+        </div>
+    </div>
+
+    <script src="script/vendor/requirejs/require.js"></script>
+    <script src="script/require-config.js"></script>
+    <script src="script/base.js"></script>
+</body>
+
+</html>

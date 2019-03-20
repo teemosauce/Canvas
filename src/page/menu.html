@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>菜单导航栏</title>
+    <link rel="stylesheet" href="css/base.css">
+
+    <style>
+        body {
+            background-color: #f0f3ef;
+        }
+
+        ul.menu-list {
+            width: 200px;
+            background-color: #ffffff;
+            padding: 8px 0;
+            line-height: 25px;
+        }
+
+        ul.menu-list li {
+            padding-left: 16px;
+        }
+
+        ul.menu-list li:hover .menu-content {
+            width: 800px;
+            font-size: inherit;
+        }
+
+        .menu-content {
+            position: absolute;
+            top: 0;
+            left: 200px;
+            bottom: 0;
+            background: yellow;
+            transition: width 0s;
+            width: 0;
+            font-size: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="site-header">
+        <a class="logo"></a>
+        <div class="container">
+            <div class="title">菜单导航栏</div>
+        </div>
+    </div>
+
+    <div class="site-content">
+        <div class="container">
+
+            <ul class="menu-list">
+                <li>
+                    <a href="">家用电器</a>
+
+                    <div class="menu-content">家用电器</div>
+                </li>
+                <li>
+                    <a href="">手机/运营商/数码</a>
+                    <div class="menu-content">手机/运营商/数码</div>
+                </li>
+                <li>
+                    <a href="">电脑/办公</a>
+                    <div class="menu-content">电脑/办公</div>
+                </li>
+                <li>
+                    <a href="">家居/家具/家装/厨具</a>
+                    <div class="menu-content">家居/家具/家装/厨具</div>
+                </li>
+                <li>
+                    <a href="">男装/女装/童装/内衣</a>
+                    <div class="menu-content">男装/女装/童装/内衣</div>
+                </li>
+                <li>
+                    <a href="">美妆/个护清洁/宠物</a>
+                    <div class="menu-content">美妆/个护清洁/宠物</div>
+                </li>
+                <li>
+                    <a href="">女鞋/箱包/钟表/珠宝</a>
+                    <div class="menu-content">女鞋/箱包/钟表/珠宝</div>
+                </li>
+                <li>
+                    <a href="">男鞋/运动/户外</a>
+                    <div class="menu-content">男鞋/运动/户外</div>
+                </li>
+                <li>
+                    <a href="">房产/汽车/汽车用品</a>
+                    <div class="menu-content">房产/汽车/汽车用品</div>
+                </li>
+                <li>
+                    <a href="">母婴/玩具/乐器</a>
+                    <div class="menu-content">母婴/玩具/乐器</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="site-footer">
+        <div class="container">
+            @ 2019
+        </div>
+    </div>
+
+    <script src="script/vendor/requirejs/require.js"></script>
+    <script src="script/require-config.js"></script>
+    <script src="script/base.js"></script>
+</body>
+
+</html>
