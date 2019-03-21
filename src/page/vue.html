@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue源码解读</title>
+    <link rel="stylesheet" href="css/base.css">
+</head>
+
+<body>
+    <div class="site-header">
+        <a href="/" class="logo"></a>
+        <div class="container">
+            <div class="title">Vue源码解读</div>
+        </div>
+    </div>
+
+    <div class="site-content">
+        <div class="container">
+            <div id="app">{{title}}</div>
+        </div>
+    </div>
+</body>
+
+<script src="script/vendor/vue/vue.js"></script>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            title: "VueVueVue"
+        },
+
+        beforeCreate() {
+            console.log('beforeCreate')
+        },
+    })
+</script>
+
+</html>
