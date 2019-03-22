@@ -31,7 +31,7 @@ define([
         context.globalCompositeOperation = "source-over";
     }
 
-    function MotionDraw(option) {
+    function CometDraw(option) {
         var lines = option.lines || []; // 所有运动路线
         var width = option.w || 0; // 画布宽度
         var height = option.h || 0; // 画布高度
@@ -117,7 +117,7 @@ define([
         // this.canvas1.style.display = "none";
     }
 
-    MotionDraw.prototype = {
+    CometDraw.prototype = {
         update: function () {
             var len = this.motionPoints.length,
                 _this = this;
@@ -161,5 +161,5 @@ define([
         }
     }
 
-    return MotionDraw
+    return CometDraw
 });

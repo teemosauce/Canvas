@@ -80,19 +80,18 @@ gulp.task("copy:others", function () {
 gulp.task("copy", gulp.parallel("copy:fonts", "copy:vendor", "copy:others"));
 
 // 替换html页面中的引用路径并压缩
-
 gulp.task('htmlreplace', function () {
     return gulp.src(['dist/rev/*.json', '*.html', 'src/page/**/*.html'])
         .pipe(revCollector({
             replaceReved: true,
         }))
-        .pipe(htmlmin({
-            collapseWhitespace: true,
-            empty: true,
-            spare: true,
-            minifyCSS: true,
-            minifyJS: true
-        }))
+        // .pipe(htmlmin({
+        //     collapseWhitespace: true,
+        //     empty: true,
+        //     spare: true,
+        //     minifyCSS: true,
+        //     minifyJS: true
+        // }))
         .pipe(gulp.dest('dist'))
 })
 

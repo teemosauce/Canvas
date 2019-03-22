@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>基于背景图片绘制流动元素</title>
+    <title>基于背景图片彗星效果</title>
     <link rel="shortcut icon" href="asset/favicons/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/canvas.css">
@@ -15,7 +15,7 @@
     <div class="site-header">
         <a class="logo" href="/"></a>
         <div class="container">
-            <div class="title">基于背景图片绘制流动元素</div>
+            <div class="title">基于背景图片彗星效果</div>
         </div>
     </div>
 
@@ -44,9 +44,10 @@
     <script src="script/base.js"></script>
 
     <script type="text/javascript">
-        require(['PQ_canvas'], function (canvas) {
+        require(['PQ_comet'], function (comet) {
+
+            // 两张图片的彗星运动轨迹
             var options = [
-                // 第一张图片点击参数
                 {
                     "w": 1920,
                     "h": 500,
@@ -136,7 +137,7 @@
                 }
 
             ];
-            canvas.init(options);
+            comet.init(options);
         });
     </script>
 </body>

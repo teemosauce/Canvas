@@ -13,24 +13,25 @@
 }(this, function () {
     'use strict';
 
-    /*  */
-
+    // 创建空对象
     var emptyObject = Object.freeze({});
 
-    // These helpers produce better VM code in JS engines due to their
-    // explicitness and function inlining.
+    // 对象未定义方法
     function isUndef(v) {
         return v === undefined || v === null
     }
 
+     // 对象已定义
     function isDef(v) {
         return v !== undefined && v !== null
     }
 
+    // 为true
     function isTrue(v) {
         return v === true
     }
 
+     // 为false
     function isFalse(v) {
         return v === false
     }
@@ -5460,8 +5461,11 @@
         }
     }
 
-    /*  */
-
+    /**
+     * 定义功能组件的注册方法
+     * 调用该方法可以将相关的组件、指令、过滤器注册到Vue全局属性中 供后面使用
+     * @param {*} Vue 
+     */
     function initAssetRegisters(Vue) {
         /**
          * Create asset registration methods.
@@ -5634,10 +5638,9 @@
         KeepAlive: KeepAlive
     };
 
-    /*  */
-
+    /* Vue上面的全局方法 */
     function initGlobalAPI(Vue) {
-        // config
+        // Vue全局配置 
         var configDef = {};
         configDef.get = function () {
             return config;
@@ -5650,13 +5653,11 @@
         }
         Object.defineProperty(Vue, 'config', configDef);
 
-        // exposed util methods.
-        // NOTE: these are not considered part of the public API - avoid relying on
-        // them unless you are aware of the risk.
+        // 暴露的工具函数
         Vue.util = {
-            warn: warn,
-            extend: extend,
-            mergeOptions: mergeOptions,
+            warn: warn, // warn log 打印
+            extend: extend, // 继承
+            mergeOptions: mergeOptions, // 合并参数
             defineReactive: defineReactive$$1
         };
 

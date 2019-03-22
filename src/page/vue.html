@@ -6,7 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Vue源码解读</title>
+    <link rel="shortcut icon" href="asset/favicons/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/base.css">
+
+    <style>
+        .btn {
+            background-color: yellowgreen;
+            color: #ffffff;
+            height: 40px;
+            padding: 8px 24px;
+        }
+    </style>
 </head>
 
 <body>
@@ -19,7 +29,10 @@
 
     <div class="site-content">
         <div class="container">
-            <div id="app">{{title}}</div>
+            <div id="app">
+                <span>{{title}}</span>
+                <mbutton title="按钮1" message="传给按钮的数据"></mbutton>
+            </div>
         </div>
     </div>
 </body>
@@ -27,10 +40,31 @@
 <script src="script/vendor/vue/vue.js"></script>
 
 <script>
+    var MButton = Vue.component('MyButton', {
+        template: "<div><button class='btn' @click='handleClick'>{{tit}}</button></div>",
+        props: ['title', "message"],
+        data() {
+            return {
+                tit: this.title || "自定义按钮"
+            }
+        },
+        methods: {
+            handleClick() {
+                alert(this.message)
+            }
+        },
+    })
+
     new Vue({
         el: '#app',
-        data: {
-            title: "VueVueVue"
+        data() {
+            return {
+                title: "这是一个Vue应用"
+            }
+        },
+
+        components: {
+            mbutton: MButton
         },
 
         beforeCreate() {

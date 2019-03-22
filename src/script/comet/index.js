@@ -1,6 +1,6 @@
 define([
-    'PQ_animationFrame', 'PQ_MotionDraw', 'PQ_util'
-], function (animationFrame, MotionDraw, util) {
+    'PQ_animationFrame', 'PQ_Cometer', 'PQ_util'
+], function (animationFrame, Cometer, util) {
     // 'use strict';
 
     var requestAnimation = animationFrame.requestAnimation(),
@@ -28,12 +28,12 @@ define([
         startAnimation: function () {
             var args = arguments;
             var option = this.option;
-            var drawer = option.drawer;
-            if (!drawer) {
-                drawer = new MotionDraw(option);
-                option.drawer = drawer;
+            var cometer = option.cometer;
+            if (!cometer) {
+                cometer = new Cometer(option);
+                option.cometer = cometer;
             }
-            drawer.update();
+            cometer.update();
             var _this = this;
             this.requestId = requestAnimation(function () {
                 _this.startAnimation.apply(_this, args);

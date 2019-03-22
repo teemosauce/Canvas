@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React源码学习分析</title>
+
+    <link rel="shortcut icon" href="asset/favicons/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/base.css">
+
+    <style>
+        .btn {
+            background-color: yellowgreen;
+            color: #ffffff;
+            height: 40px;
+            padding: 8px 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="site-header">
+        <a href="/" class="logo"></a>
+        <div class="contaienr">
+            <div class="title">
+                React源码学习分析
+            </div>
+        </div>
+    </div>
+
+    <div class="site-content">
+        <div class="container">
+            <div id="app">
+            </div>
+        </div>
+    </div>
+
+
+    <script src="script/vendor/react/react.js"></script>
+    <script src="script/vendor/react/react-dom.js"></script>
+    <script src="script/helper/class.js"></script>
+
+    <script>
+        function MButton() {
+            React.Component.apply(this, arguments)
+
+            this.state = {
+                val: '哈哈'
+            }
+        }
+
+        MButton.prototype = React.Component.prototype
+
+        MButton.prototype.render = function () {
+            return React.createElement('div', null, React.createElement('button', {
+                className: 'btn',
+                onClick: this.handleClick.bind(this),
+                customProp: '自定义的属性'
+            }, this.state.val || "自定义按钮"))
+        }
+
+        MButton.prototype.handleClick = function () {
+            // alert(this.props.message)
+
+            // this.props.title = '改变属性值'
+            this.setState({
+                val: '1'
+            })
+        }
+        var button = new MButton({
+            title: '按钮1',
+            message: '传给按钮的数据'
+        });
+
+        var element = button.render()
+        ReactDOM.render(element, document.getElementById("app"), function () {
+            console.log("加载完毕", arguments)
+        })
+    </script>
+</body>
+
+</html>
