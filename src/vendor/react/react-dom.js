@@ -20709,6 +20709,9 @@ function getContextForSubtree(parentComponent) {
   return parentContext;
 }
 
+/**
+ * 周期性的更新Root节点
+ */
 function scheduleRootUpdate(current$$1, element, expirationTime, callback) {
   {
     if (phase === 'render' && current !== null && !didWarnAboutNestedUpdates) {
